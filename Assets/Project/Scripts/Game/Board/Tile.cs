@@ -4,6 +4,13 @@ public class Tile : MonoBehaviour
 {
     private bool isOccupied;
     private BasePiece placedPiece;
+    private Vector2Int gridPosition;
+
+    public Vector2Int GridPosition
+    {
+        get { return gridPosition; }
+        set { gridPosition = value; }
+    }
 
     public void SetTile(Sprite spriteTile)
     {

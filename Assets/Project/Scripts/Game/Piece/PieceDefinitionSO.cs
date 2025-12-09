@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PieceDefinition", menuName = "BoardGame/Piece Definition")]
+[CreateAssetMenu(fileName = "PieceDefinition", menuName = "Piece Definition")]
 public class PieceDefinitionSO : ScriptableObject
 {
     [Header("Movement")]

@@ -80,7 +80,7 @@ public class PiecePlacerEditor : Editor
             {
                 var p = GetPlacedPieceAt(placer, new Vector2Int(x, y));
                 if (p != null)
-                    EditorGUILayout.LabelField($"({x},{y}) → {p.prefab.name}");
+                    EditorGUILayout.LabelField($"Piece at ({x}, {y}): {p.definition.name}");
             }
         }
 
@@ -140,14 +140,14 @@ public class PiecePlacerEditor : Editor
         }
     }
 
-    PiecePlacer.PlacedPiece GetPlacedPieceAt(PiecePlacer placer, Vector2Int pos)
+    BasePiece GetPlacedPieceAt(PiecePlacer placer, Vector2Int pos)
     {
-        if (placer.placedPieces == null) return null;
-        for (int i = 0; i < placer.placedPieces.Count; i++)
+        foreach (var piece in placer.placedPieces)
         {
-            if (placer.placedPieces[i].gridPos == pos)
-                return placer.placedPieces[i];
+            if (piece.gridPos == pos)
+                return piece;
         }
         return null;
     }
+
 }

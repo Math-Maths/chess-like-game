@@ -5,22 +5,14 @@ using System.Collections.Generic;
 public class PiecePlacer : MonoBehaviour
 {
     [Header("Piece Setup")]
-    public GameObject[] piecePrefabs;
+    public BasePiece[] piecePrefabs;
     public int currentPieceIndex;
 
     [Header("Board Reference")]
     public BoardCreator board;
     public Transform piecesParent;
 
-    [System.Serializable]
-    public class PlacedPiece
-    {
-        public GameObject prefab;
-        public Vector2Int gridPos;
-        public GameObject instance;
-    }
-
-    public List<PlacedPiece> placedPieces = new List<PlacedPiece>();
+    public List<BasePiece> placedPieces = new List<BasePiece>();
 
     public void PlacePieceAt(Vector2Int pos)
     {
@@ -32,16 +24,9 @@ public class PiecePlacer : MonoBehaviour
 
         RemovePieceAt(pos);
 
-        var piece = new PlacedPiece
-        {
-            prefab = prefab,
-            gridPos = pos
-        };
-
         Vector3 worldPos = board.GetWorldPosition(pos.x, pos.y);
-        piece.instance = (Application.isPlaying)
-            ? Instantiate(prefab, worldPos, Quaternion.identity, piecesParent)
-            : Instantiate(prefab, worldPos, Quaternion.identity, piecesParent);
+        BasePiece piece = Instantiate(prefab, worldPos, Quaternion.identity, piecesParent);
+        piece.Initialize(board, pos);
 
         placedPieces.Add(piece);
     }
@@ -52,11 +37,10 @@ public class PiecePlacer : MonoBehaviour
         {
             if (placedPieces[i].gridPos == pos)
             {
-                if (placedPieces[i].instance != null)
                     if (Application.isPlaying)
-                        Destroy(placedPieces[i].instance);
+                        Destroy(placedPieces[i].gameObject);
                     else
-                        DestroyImmediate(placedPieces[i].instance);
+                        DestroyImmediate(placedPieces[i].gameObject);
 
                 placedPieces.RemoveAt(i);
             }
@@ -67,11 +51,11 @@ public class PiecePlacer : MonoBehaviour
     {
         for (int i = placedPieces.Count - 1; i >= 0; i--)
         {
-            if (placedPieces[i].instance != null)
+            if (placedPieces[i] != null)
                 if (Application.isPlaying)
-                    Destroy(placedPieces[i].instance);
+                    Destroy(placedPieces[i].gameObject);
                 else
-                    DestroyImmediate(placedPieces[i].instance);
+                    DestroyImmediate(placedPieces[i].gameObject);
         }
         placedPieces.Clear();
     }

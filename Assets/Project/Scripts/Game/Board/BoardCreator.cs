@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class BoardCreator : MonoBehaviour
 {
+    public static BoardCreator Instance { get; private set; }
+
     [Header("Board Definitions")]
     [SerializeField] private BoardDefinitionSO[] boardDefinitions;
     [SerializeField] private int boardIndex;
@@ -22,10 +24,23 @@ public class BoardCreator : MonoBehaviour
     private BoardDefinitionSO _currentBoard;
     private List<Coordinate> _allCoordinates;
     private Queue<Coordinate> _shuffledCoordinates;
+    private Tile[,] tiles;
 
     public int CurrentWidth => _currentBoard.width;
     public int CurrentHeight => _currentBoard.height;
     public BoardDefinitionSO currentDefinition => _currentBoard;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -64,7 +79,9 @@ public class BoardCreator : MonoBehaviour
         // Erase old board
         string holderName = "Generated Board";
         if (transform.Find(holderName))
+        {
             DestroyImmediate(transform.Find(holderName).gameObject);
+        }
 
         // Create board holder
         Transform container = new GameObject(holderName).transform;
@@ -75,6 +92,8 @@ public class BoardCreator : MonoBehaviour
         else
             boardParent = container;
 
+        tiles = new Tile[_currentBoard.width, _currentBoard.height];
+
         // Generate tiles
         for (int x = 0; x < _currentBoard.width; x++)
         {
@@ -83,7 +102,9 @@ public class BoardCreator : MonoBehaviour
                 Vector3 tilePos = CoordinateToPosition(x, y);
 
                 Tile tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, boardParent);
+                tile.transform.name = $"Tile {x},{y}"; 
                 tile.transform.localScale = Vector3.one * (1 - outlinePercent) * tileSize;
+                tile.GridPosition = new Vector2Int(x, y);
                 
                 bool isA = (x + y) % 2 == 0;
                 if(isA)
@@ -95,6 +116,7 @@ public class BoardCreator : MonoBehaviour
                     tile.SetTile(_currentBoard.tileB);
                 }
                 
+                tiles[x, y] = tile;
             }
         }
 
@@ -162,5 +184,45 @@ public class BoardCreator : MonoBehaviour
     public Vector3 GetWorldPosition(int x, int y)
     {
         return CoordinateToPosition(x, y);
+    }
+
+    public Tile GetTileAtWorldPos(Vector2Int worldPos)
+    {
+        if (IsInsideBoard(worldPos))
+        {
+            return tiles[worldPos.x, worldPos.y];
+        }
+
+        return null;
+    }
+
+    public Tile GetTileAtWorldPos(int x, int y)
+    {
+        Vector2Int worldPos = new Vector2Int(x, y);
+        if (IsInsideBoard(worldPos))
+        {
+            return tiles[worldPos.x, worldPos.y];
+        }
+
+        return null;
+    }
+
+    public BasePiece GetPieceAtTile(Tile tile)
+    {
+        if(tile.IsOccupied(out BasePiece piece))
+        {
+            return piece;
+        }
+
+        return null;
+    }
+
+    public void PlacePiece(BasePiece piece, Vector2Int pos)
+    {
+        Tile tile = GetTileAtWorldPos(pos);
+        if(tile != null)
+        {
+            tile.PlacePiece(piece);
+        }
     }
 }

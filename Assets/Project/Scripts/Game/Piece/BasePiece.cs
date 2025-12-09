@@ -12,13 +12,22 @@ public class BasePiece : MonoBehaviour
         this.board = board;
         gridPos = startPos;
         transform.position = board.GetWorldPosition(startPos.x, startPos.y);
+        board.PlacePiece(this, startPos);
     }
 
-    public bool TryMove(Vector2Int targetPos)
+    public void UpdatePiecePlace(Vector2Int newPos)
     {
-        if (MovementValidator.IsValidMove(this, targetPos, board))
+        gridPos = newPos;
+        transform.position = board.GetWorldPosition(newPos.x, newPos.y);
+        board.PlacePiece(this, newPos);
+    }
+
+    public bool TryMove(Tile targetTile)
+    {
+        if (MovementValidator.IsValidMove(targetTile, this))
         {
-            board.MovePiece(this, targetPos);
+            board.MovePiece(this, targetTile.GridPosition);
+            UpdatePiecePlace(targetTile.GridPosition);
             return true;
         }
 
