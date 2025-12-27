@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: travaler-proto
   m_EditorClassIdentifier: 
   pieceName: traveler-proto
-  pieceSprite: {fileID: 3677420404633264717, guid: 0eeed5a3022a94e499ce9f999fda6152, type: 3}
+  pieceSprite: {fileID: -1516479222023209826, guid: e90af9d9f919265409b7a25cbd3e6e4d, type: 3}
   movementPatterns:
   - {x: 1, y: 0}
   - {x: -1, y: 0}
@@ -22,3 +22,4 @@ MonoBehaviour:
   maxMoveDistance: 5
   firstMoveDistance: 5
   canJumpOverPieces: 0
+  attackPatterns: []

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: village-leader-proto
   m_EditorClassIdentifier: 
   pieceName: village-leader-proto
-  pieceSprite: {fileID: 5558947558785748934, guid: 6de7daba7fc860e4e9345839117650c1, type: 3}
+  pieceSprite: {fileID: -8319913397751345365, guid: db481c4176ef2644b816f381adb3ef60, type: 3}
   movementPatterns:
   - {x: 1, y: 0}
   - {x: 1, y: 1}
@@ -26,3 +26,4 @@ MonoBehaviour:
   maxMoveDistance: 1
   firstMoveDistance: 1
   canJumpOverPieces: 0
+  attackPatterns: []

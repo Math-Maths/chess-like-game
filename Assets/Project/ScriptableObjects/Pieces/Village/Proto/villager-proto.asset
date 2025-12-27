@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: villager-proto
   m_EditorClassIdentifier: 
   pieceName: villager-proto
-  pieceSprite: {fileID: -6931424502843302152, guid: 5d3d7c812a73a8f4faf5da801dfa82a0, type: 3}
+  pieceSprite: {fileID: 1952507750863325824, guid: a3669d5028f21374b80c610a977f8737, type: 3}
   movementPatterns:
   - {x: 0, y: 1}
   maxMoveDistance: 1
   firstMoveDistance: 2
   canJumpOverPieces: 0
+  attackPatterns:
+  - {x: 1, y: 1}
+  - {x: -1, y: 1}

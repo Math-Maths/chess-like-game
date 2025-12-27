@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: mule-proto
   m_EditorClassIdentifier: 
   pieceName: mule-proto
-  pieceSprite: {fileID: 5990586565061737025, guid: d482b398ea5d73f49b7b2816c2221f24, type: 3}
+  pieceSprite: {fileID: 2715856200758502006, guid: 878a87d4a8ef01d498e1ee2031b9e9f6, type: 3}
   movementPatterns:
   - {x: 1, y: 2}
   - {x: -1, y: 2}
@@ -26,3 +26,4 @@ MonoBehaviour:
   maxMoveDistance: 1
   firstMoveDistance: 1
   canJumpOverPieces: 1
+  attackPatterns: []
