@@ -1,27 +1,98 @@
 using UnityEditor;
 using UnityEngine;
+using ChessGame;
+using UnityEngine.UI;
 
 [CustomEditor(typeof(BoardCreator))]
 public class BoardEditor : Editor
 {
+    SerializedProperty selectedBoardIndexProp;
+    SerializedProperty boardsProp;
+    SerializedProperty tilePrefabProp;
+    SerializedProperty holderNameProp;
+    SerializedProperty pieceHolderNameProp;
+
+    private bool showBoardSettings = true;
+
+    private void OnEnable()
+    {
+        selectedBoardIndexProp = serializedObject.FindProperty("selectedBoardIndex");
+        boardsProp = serializedObject.FindProperty("boards");
+        tilePrefabProp = serializedObject.FindProperty("tilePrefab");
+        holderNameProp = serializedObject.FindProperty("holderName"); 
+        pieceHolderNameProp = serializedObject.FindProperty("pieceHolderName");
+    }
+
     public override void OnInspectorGUI()
     {
-        BoardCreator creator = (BoardCreator)target;
+        serializedObject.Update();
+    
+        EditorGUILayout.PropertyField(tilePrefabProp);
+        EditorGUILayout.Space(10);
+        EditorGUILayout.PropertyField(holderNameProp);
+        EditorGUILayout.PropertyField(pieceHolderNameProp);
+        EditorGUILayout.Space(10);
+        EditorGUILayout.PropertyField(selectedBoardIndexProp);
+        EditorGUILayout.PropertyField(boardsProp, true);
 
-        EditorGUI.BeginChangeCheck();
-        DrawDefaultInspector();
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        EditorGUILayout.Space(10);
 
-        if (EditorGUI.EndChangeCheck())
+        GUIStyle headerStyle = new GUIStyle(EditorStyles.boldLabel)
         {
-            if (GUI.changed)
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 24,
+            normal = { textColor = Color.white}
+        };
+        GUIStyle background = new GUIStyle();
+        background.normal.background = Texture2D.grayTexture;
+        EditorGUILayout.BeginVertical(background);
+
+        string buttonText = showBoardSettings ? "Hide Board Settings" : "Show Board Settings";
+
+        if(GUILayout.Button(buttonText, headerStyle))
+        {
+           showBoardSettings = !showBoardSettings;
+        }
+        
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(10);
+
+        if(showBoardSettings)
+        {
+            int index = selectedBoardIndexProp.intValue;
+
+            if (index >= 0 && index < boardsProp.arraySize)
             {
-                creator.GenerateBoard();
+                SerializedProperty element = boardsProp.GetArrayElementAtIndex(index);
+
+                if (element.objectReferenceValue != null)
+                {
+
+
+                    SerializedObject so = new SerializedObject(element.objectReferenceValue);
+                    so.Update();
+
+                    SerializedProperty prop = so.GetIterator();
+                    prop.NextVisible(true);
+
+                    while (prop.NextVisible(false))
+                    {
+                        EditorGUILayout.PropertyField(prop, true);
+                    }
+
+                    so.ApplyModifiedProperties();
+                }
             }
         }
 
-        if (GUILayout.Button("Generate Board (Manual)"))
+        serializedObject.ApplyModifiedProperties();
+
+        BoardCreator board = (BoardCreator)target;
+
+        if (GUI.changed)
         {
-            creator.GenerateBoard();
+            board.GenerateBoard();
         }
     }
 }
