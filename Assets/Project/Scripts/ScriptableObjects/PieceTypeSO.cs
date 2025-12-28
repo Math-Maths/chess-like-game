@@ -10,6 +10,5 @@ public class PieceTypeSO : ScriptableObject
     public int maxMoveDistance;
     public int firstMoveDistance;
     public bool canJumpOverPieces;
-    
-
+    public Vector2Int[] attackPatterns;
 }

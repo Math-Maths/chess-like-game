@@ -6,6 +6,7 @@ public class BoardManager : MonoBehaviour
 {
     [SerializeField] SpriteRenderer tileSelectionPrefab;
     [SerializeField] Sprite previewMoveSprite;
+    [SerializeField] Sprite previewAttackSprite;
     [SerializeField] Sprite selectionSprite;
 
     private Piece _selectedPiece;
@@ -53,6 +54,7 @@ public class BoardManager : MonoBehaviour
         selectedPiece = _selectedTile;
         ClearMovePreviews();
         ShowPieceMovePreview(_selectedTile);
+        showPieceAttackPreview(_selectedTile);
     }
 
     public void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
@@ -113,6 +115,21 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    void showPieceAttackPreview(BoardTile tile)
+    {
+        var attackMoves = MoveValidator.CheckPossibleAttacks(tile);
+        foreach (var move in attackMoves)
+        {
+            Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(move.x, move.y);
+            SpriteRenderer previewInstance = Instantiate(tileSelectionPrefab);
+            previewInstance.sprite = previewAttackSprite;
+            previewInstance.sortingOrder = 1;
+            previewInstance.transform.position = previewPosition;
+            _previewInstances.Add(previewInstance);
+            validMoves.Add(move);
+        }
+    }
+
     void ClearMovePreviews()
     {
         foreach (var preview in _previewInstances)
@@ -120,6 +137,7 @@ public class BoardManager : MonoBehaviour
             Destroy(preview.gameObject);
         }
         _previewInstances.Clear();
+        validMoves = null;
     }
 
 }
