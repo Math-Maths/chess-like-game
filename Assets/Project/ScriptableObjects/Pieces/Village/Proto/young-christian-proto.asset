@@ -22,4 +22,8 @@ MonoBehaviour:
   maxMoveDistance: 5
   firstMoveDistance: 5
   canJumpOverPieces: 0
-  attackPatterns: []
+  attackPatterns:
+  - {x: 1, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
