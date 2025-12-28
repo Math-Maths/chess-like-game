@@ -64,11 +64,13 @@ public class BoardCreator : MonoBehaviour
 
         SetHolders();
 
+        float zOffset = -0.1f;
+
         for (int x = 0; x < _currentBoard.boardSize.x; x++)
         {
             for (int y = 0; y < _currentBoard.boardSize.y; y++)
             {
-                Vector3 tilePosition = CoordinateToPosition(x, y);
+                Vector3 tilePosition = CoordinateToPosition(x, y) + new Vector3(0, 0, zOffset);
                 BoardTile newTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity, _boardHolder);
 
                 if((x + y) % 2 == 0)
@@ -81,7 +83,10 @@ public class BoardCreator : MonoBehaviour
                 }
 
                 tiles[x, y] = newTile;
+                zOffset += 0.01f;
             }
+
+            zOffset = -0.1f;
         }
 
         if(piecePlacer != null)
