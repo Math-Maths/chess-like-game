@@ -10,7 +10,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] Sprite selectionSprite;
 
     private Piece _selectedPiece;
-    private BoardTile _selectedTile, _tileToMove;
+    private BoardTile _selectedTile;
     private SpriteRenderer _selectionInstance;
     private List<SpriteRenderer> _previewInstances = new List<SpriteRenderer>();
     private List<BoardCreator.Coordinate> validMoves;
@@ -26,8 +26,33 @@ public class BoardManager : MonoBehaviour
     public void HandleSelection(BoardTile tile, out BoardTile selectedPiece)
     {
         // Deselect if the same tile is selected again
-        if(_selectedTile == tile)
+        if(_selectedTile == tile && _selectedPiece != null)
         {
+            if(_selectedPiece.Type.hasSecondaryAttack)
+            {
+                Debug.Log("Secondary attack triggered!");
+                selectedPiece = _selectedTile;
+                return;
+            }
+
+            _selectedTile = null;
+            _selectedPiece = null;
+            _selectionInstance.gameObject.SetActive(false);
+            ClearMovePreviews();
+            selectedPiece = null;
+            return;
+        }
+        else if(_selectedTile != tile && _selectedPiece != null)
+        {
+            if(tile.GetOccupyingPiece() != _selectedPiece && 
+                tile.GetOccupyingPiece() != null && 
+                tile.GetOccupyingPiece().Side == _selectedPiece.Side)
+            {
+                SelectPieceOnTile(tile, out selectedPiece);
+                return;
+            }
+
+            TryMoveSelectedPiece(_selectedTile, tile);
             _selectedTile = null;
             _selectedPiece = null;
             _selectionInstance.gameObject.SetActive(false);
@@ -36,10 +61,14 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
+        SelectPieceOnTile(tile, out selectedPiece);
+    }
+
+    void SelectPieceOnTile(BoardTile tile, out BoardTile selectedPiece)
+    {
         _selectedTile = tile;
         _selectedPiece = _selectedTile.GetOccupyingPiece();
 
-        // Only allow selection of white pieces
         if(_selectedPiece.Side != GameManager.Instance.CurrentTurn) 
         {
             _selectedTile = null;
@@ -47,7 +76,7 @@ public class BoardManager : MonoBehaviour
             selectedPiece = null;
             return;
         }
-        
+
         Vector3 selectionPosition = BoardCreator.Instance.CoordinateToPosition(_selectedTile.XCoord, _selectedTile.YCoord);
         _selectionInstance.transform.position = selectionPosition;
         _selectionInstance.gameObject.SetActive(true);
@@ -57,7 +86,7 @@ public class BoardManager : MonoBehaviour
         showPieceAttackPreview(_selectedTile);
     }
 
-    public void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
+    void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
     {
         if(selectedBoardTile == null || targetTile == null)
             return;

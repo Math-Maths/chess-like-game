@@ -46,20 +46,21 @@ public class InputHandler : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent<BoardTile>(out BoardTile tile))
                 {
-                    //BoardManager handle tile selection
                     Piece piece = tile.GetOccupyingPiece();
 
-                    if(_selectedPiece != null)
-                    {
-                        //Try to move the selected piece to the clicked tile
-                        _boardManager.TryMoveSelectedPiece(_selectedPiece, tile);
-                        _selectedPiece = null;
-                        return;
-                    }
+                    #region Deprecated
+                    // if(_selectedPiece != null)
+                    // {
+                    //     //Try to move the selected piece to the clicked tile
+                    //     _boardManager.TryMoveSelectedPiece(_selectedPiece, tile);
+                    //     _selectedPiece = null;
+                    //     return;
+                    // }
+                    #endregion
 
-                    if(piece != null)
+                    if(piece != null || _selectedPiece != null)
                     {
-                        Debug.Log($"Clicked on piece: {piece.name} at tile: {tile.name}");
+                        //Debug.Log($"Clicked on piece: {piece.name} at tile: {tile.name}");
                         _boardManager.HandleSelection(tile, out _selectedPiece);
                     }
                     else
