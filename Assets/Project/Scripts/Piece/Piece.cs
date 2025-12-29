@@ -33,7 +33,7 @@ public class Piece : MonoBehaviour
         color = side;
         spriteRenderer.sprite = type.pieceSprite;
         gameObject.name = type.pieceName;
-        spriteRenderer.sortingOrder = 1;
+        spriteRenderer.sortingOrder = type.pieceOrderValue;
         firstMoveDone = false;
     }
 
