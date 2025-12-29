@@ -34,6 +34,11 @@ public static class MoveValidator
                 BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
                 if(targetTile.GetOccupyingPiece() != null)
                 {
+                    if(type.canJumpOverPieces)
+                    {
+                        continue;
+                    }
+
                     break;
                 }
 

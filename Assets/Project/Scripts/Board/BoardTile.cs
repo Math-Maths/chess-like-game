@@ -36,7 +36,7 @@ public class BoardTile : MonoBehaviour
     {
         if(occupyingPiece != null)
         {
-            Debug.LogWarning($"Tile ({XCoord}, {YCoord}) is already occupied by {occupyingPiece.gameObject.name}. Overwriting.");
+            //Debug.LogWarning($"Tile ({XCoord}, {YCoord}) is already occupied by {occupyingPiece.gameObject.name}. Overwriting.");
             occupyingPiece.Die();
             RemovePiece();
         }
