@@ -14,12 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: traveler-proto
   pieceSprite: {fileID: -1516479222023209826, guid: e90af9d9f919265409b7a25cbd3e6e4d, type: 3}
+  pieceOutlineSprite: {fileID: -1660696811630249761, guid: e97732b6292f23e498575c7a21194e74, type: 3}
+  pieceOrderValue: 28
+  hasSecondaryAttack: 0
+  maxMoveDistance: 5
+  firstMoveDistance: 5
+  canJumpOverPieces: 0
   movementPatterns:
   - {x: 1, y: 0}
   - {x: -1, y: 0}
   - {x: 0, y: 1}
   - {x: 0, y: -1}
-  maxMoveDistance: 5
-  firstMoveDistance: 5
-  canJumpOverPieces: 0
-  attackPatterns: []
+  attackPatterns:
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}

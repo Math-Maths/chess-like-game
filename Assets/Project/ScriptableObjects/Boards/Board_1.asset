@@ -18,6 +18,8 @@ MonoBehaviour:
     y: 8
   whiteTileSprite: {fileID: -7261268291002220680, guid: b27921853d556a94fbc965b8e3426b05, type: 3}
   blackTileSprite: {fileID: -2681660156007112730, guid: a3dbb3425d1961a47b67fdbb52678872, type: 3}
+  playerSideColor: {r: 0.20188677, g: 1, b: 0.22904558, a: 1}
+  botSideColor: {r: 1, g: 0.18679237, b: 0.18679237, a: 1}
   enemyPieces:
   - pieceType: {fileID: 11400000, guid: 8d17a654a52d0b94694b3823111ca70f, type: 2}
     position:

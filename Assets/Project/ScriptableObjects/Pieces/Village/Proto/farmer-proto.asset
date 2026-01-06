@@ -14,6 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: farmer-proto
   pieceSprite: {fileID: -284627385986098231, guid: 5d6ab11fe8be2644ea3466234ab36530, type: 3}
+  pieceOutlineSprite: {fileID: 1896853682132549823, guid: 1ce6d3ec98a492043b7db09dd024aa88, type: 3}
+  pieceOrderValue: 31
+  hasSecondaryAttack: 0
+  maxMoveDistance: 5
+  firstMoveDistance: 5
+  canJumpOverPieces: 0
   movementPatterns:
   - {x: 1, y: 0}
   - {x: 1, y: 1}
@@ -23,7 +29,12 @@ MonoBehaviour:
   - {x: -1, y: -1}
   - {x: -1, y: 0}
   - {x: -1, y: 1}
-  maxMoveDistance: 5
-  firstMoveDistance: 5
-  canJumpOverPieces: 0
-  attackPatterns: []
+  attackPatterns:
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 1, y: -1}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  - {x: -1, y: -1}
+  - {x: -1, y: 0}
+  - {x: -1, y: 1}

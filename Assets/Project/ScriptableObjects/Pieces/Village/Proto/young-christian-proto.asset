@@ -14,16 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: young-christian-proto
   pieceSprite: {fileID: 7838081249154283989, guid: 5c75452b59c28a145845fca9d579f7c6, type: 3}
+  pieceOutlineSprite: {fileID: 3108945622984394158, guid: 890b8ce610151f041b9c50402dfca178, type: 3}
+  pieceOrderValue: 30
+  category: 0
+  maxMoveDistance: 5
+  firstMoveDistance: 5
+  canJumpOverPieces: 0
+  hasSecondaryAttack: 1
   movementPatterns:
   - {x: 1, y: -1}
   - {x: 1, y: 1}
   - {x: -1, y: 1}
   - {x: -1, y: -1}
-  maxMoveDistance: 5
-  firstMoveDistance: 5
-  canJumpOverPieces: 0
   attackPatterns:
   - {x: 1, y: 1}
   - {x: -1, y: 1}
   - {x: -1, y: -1}
   - {x: 1, y: -1}
+  canShootProjectiles: 0
+  projectileRange: 0
