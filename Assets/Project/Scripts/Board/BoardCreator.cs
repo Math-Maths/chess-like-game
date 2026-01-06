@@ -90,7 +90,7 @@ public class BoardCreator : MonoBehaviour
         }
 
         if(piecePlacer != null)
-            piecePlacer.PlacePieces(_currentBoard, _pieceHolder);
+            piecePlacer.PlacePieces(_currentBoard, _pieceHolder, _currentBoard.playerSideColor, _currentBoard.botSideColor);
     }
 
     private void SetHolders()
