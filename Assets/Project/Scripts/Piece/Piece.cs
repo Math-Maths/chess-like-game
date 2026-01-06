@@ -4,10 +4,13 @@ using ChessGame;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] SpriteRenderer outlineSprite;
+
     private SpriteRenderer spriteRenderer;
     private PieceTypeSO type;
     private PieceSide color;
     private bool firstMoveDone = false;
+    private bool _secondaryAttackUsed = false;
 
     public PieceSide Side
     {
@@ -19,21 +22,30 @@ public class Piece : MonoBehaviour
         get { return type; }
     }
 
+    public bool SecondaryAttackUsed
+    {
+        get { return _secondaryAttackUsed; }
+        set { _secondaryAttackUsed = value; }
+    }
+
     public bool IsFirstMoveDone
     {
         get { return firstMoveDone; }
         set { firstMoveDone = value; }
     }
 
-    public void Initialize(PieceTypeSO newType, PieceSide side)
+    public void Initialize(PieceTypeSO newType, PieceSide side, Color outlineColor)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         type = newType;
         color = side;
         spriteRenderer.sprite = type.pieceSprite;
+        outlineSprite.sprite = type.pieceOutlineSprite;
+        outlineSprite.color = outlineColor;
         gameObject.name = type.pieceName;
         spriteRenderer.sortingOrder = type.pieceOrderValue;
+        outlineSprite.sortingOrder = type.pieceOrderValue + 1;
         firstMoveDone = false;
     }
 
@@ -48,6 +60,7 @@ public class Piece : MonoBehaviour
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
+        GameManager.Instance.CurrentGameState = GameState.Busy;
         yield return new WaitForSeconds(1f);
 
         foreach (var coord in path)
@@ -67,6 +80,15 @@ public class Piece : MonoBehaviour
 
         firstMoveDone = true;
         GameManager.Instance.ToggleTurn();
+        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+    }
+
+    public void ToggleSecondaryAttack()
+    {
+        if(type.hasSecondaryAttack)
+        {
+            _secondaryAttackUsed = !SecondaryAttackUsed;
+        }
     }
 
     public void Die()

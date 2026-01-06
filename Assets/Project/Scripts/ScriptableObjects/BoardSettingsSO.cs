@@ -9,6 +9,7 @@ public class BoardSettingsSO : ScriptableObject
     public BoardCreator.Coordinate boardSize;
     public Sprite whiteTileSprite;
     public Sprite blackTileSprite;
+    public Color playerSideColor, botSideColor;
 
     [Space(10)]
     [Header("Enemy Pieces Configuration")]
