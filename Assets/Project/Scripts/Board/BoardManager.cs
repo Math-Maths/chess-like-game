@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using ChessGame;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class BoardManager : MonoBehaviour
 {
     [SerializeField] SpriteRenderer tileSelectionPrefab;
     [SerializeField] Sprite previewMoveSprite;
     [SerializeField] Sprite previewAttackSprite;
+    [SerializeField] Sprite previewAttackRouteSprite;
     [SerializeField] Sprite selectionSprite;
 
     private Piece _selectedPiece;
@@ -14,6 +16,7 @@ public class BoardManager : MonoBehaviour
     private SpriteRenderer _selectionInstance;
     private List<SpriteRenderer> _previewInstances = new List<SpriteRenderer>();
     private List<BoardCreator.Coordinate> validMoves;
+    private List<BoardCreator.Coordinate> validAttacks;
 
     void Start()
     {
@@ -28,13 +31,17 @@ public class BoardManager : MonoBehaviour
         // Deselect if the same tile is selected again
         if(_selectedTile == tile && _selectedPiece != null)
         {
-            if(_selectedPiece.Type.hasSecondaryAttack)
+            if(_selectedPiece.Type.hasSecondaryAttack && !_selectedPiece.SecondaryAttackUsed)
             {
                 Debug.Log("Secondary attack triggered!");
+                ClearMovePreviews();
+                ShowSecondaryPreview(tile);
+                _selectedPiece.ToggleSecondaryAttack();
                 selectedPiece = _selectedTile;
                 return;
             }
 
+            _selectedPiece.ToggleSecondaryAttack();
             _selectedTile = null;
             _selectedPiece = null;
             _selectionInstance.gameObject.SetActive(false);
@@ -83,7 +90,7 @@ public class BoardManager : MonoBehaviour
         selectedPiece = _selectedTile;
         ClearMovePreviews();
         ShowPieceMovePreview(_selectedTile);
-        showPieceAttackPreview(_selectedTile);
+        ShowPieceAttackPreview(_selectedTile);
     }
 
     void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
@@ -132,7 +139,7 @@ public class BoardManager : MonoBehaviour
 
     void ShowPieceMovePreview(BoardTile tile)
     {
-        validMoves = MoveValidator.PreviewValidMoves(tile);
+        validMoves = Validator.PreviewValidMoves(tile);
         foreach (var move in validMoves)
         {
             Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(move.x, move.y);
@@ -144,9 +151,9 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void showPieceAttackPreview(BoardTile tile)
+    void ShowPieceAttackPreview(BoardTile tile)
     {
-        var attackMoves = MoveValidator.CheckPossibleAttacks(tile);
+        var attackMoves = Validator.CheckPossibleAttacks(tile);
         foreach (var move in attackMoves)
         {
             Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(move.x, move.y);
@@ -156,6 +163,32 @@ public class BoardManager : MonoBehaviour
             previewInstance.transform.position = previewPosition;
             _previewInstances.Add(previewInstance);
             validMoves.Add(move);
+        }
+    }
+
+    void ShowSecondaryPreview(BoardTile tile)
+    {   
+        List<BoardCreator.Coordinate> possibleAttack = new List<BoardCreator.Coordinate>();
+        var attackRoutePreview = Validator.PreviewProjectile(tile, out possibleAttack);
+
+        foreach(var preview in attackRoutePreview)
+        {
+            Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(preview.x, preview.y);
+            SpriteRenderer previewInstance = Instantiate(tileSelectionPrefab);
+            previewInstance.sprite = previewAttackRouteSprite;
+            previewInstance.sortingOrder = 1;
+            previewInstance.transform.position = previewPosition;
+            _previewInstances.Add(previewInstance);
+        }
+
+        foreach(var previewAttack in possibleAttack)
+        {
+            Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(previewAttack.x, previewAttack.y);
+            SpriteRenderer previewInstance = Instantiate(tileSelectionPrefab);
+            previewInstance.sprite = previewAttackSprite;
+            previewInstance.sortingOrder = 1;
+            previewInstance.transform.position = previewPosition;
+            _previewInstances.Add(previewInstance);
         }
     }
 
