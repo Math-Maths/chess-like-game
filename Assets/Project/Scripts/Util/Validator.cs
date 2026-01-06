@@ -2,7 +2,7 @@ using ChessGame;
 using System;
 using System.Collections.Generic;
 
-public static class MoveValidator
+public static class Validator
 {
     public static List<BoardCreator.Coordinate> PreviewValidMoves(BoardTile tile)
     {
@@ -87,5 +87,48 @@ public static class MoveValidator
         }
 
         return validMoves;
+    }
+
+    public static List<BoardCreator.Coordinate> PreviewProjectile(BoardTile tile, out List<BoardCreator.Coordinate> attackPositions)
+    {
+        Piece piece = tile.GetOccupyingPiece();
+        if (piece == null)
+        {
+            attackPositions = new List<BoardCreator.Coordinate>();
+            return new List<BoardCreator.Coordinate>();
+        }
+
+        PieceTypeSO type = piece.Type;
+        int pieceSide = piece.Side == PieceSide.Player ? 1 : -1;
+        var attacksPreview = new List<BoardCreator.Coordinate>();
+        var supportAttackPositions = new List<BoardCreator.Coordinate>();
+
+        foreach(var pattern in type.movementPatterns)
+        {
+            for (int range = 1; range <= type.attackRange; range++)
+            {
+                int targetX = tile.XCoord + pattern.x * pieceSide * range;
+                int targetY = tile.YCoord + pattern.y * pieceSide * range;
+
+                if (targetX < 0 || targetX >= BoardCreator.Instance.GetCurrentBoard().boardSize.x ||
+                    targetY < 0 || targetY >= BoardCreator.Instance.GetCurrentBoard().boardSize.y)
+                {
+                    continue;
+                }
+
+                BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
+                if (targetTile.GetOccupyingPiece() != null && targetTile.GetOccupyingPiece().Side != piece.Side)
+                {
+                    supportAttackPositions.Add(new BoardCreator.Coordinate(targetX, targetY));
+                    continue;
+                }
+
+                attacksPreview.Add(new BoardCreator.Coordinate(targetX, targetY));
+            }
+
+        }
+
+        attackPositions = supportAttackPositions;
+        return attacksPreview;
     }
 }
