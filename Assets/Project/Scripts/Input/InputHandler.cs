@@ -1,28 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using ChessGame;
 
 public class InputHandler : MonoBehaviour
 {
-    public enum InputContext
-    {
-        Gameplay,
-        TeamSelection,
-        UIinteraction
-    }
-
     private PlayerInput _playerInput;
     private BoardManager _boardManager;
     private BoardTile _selectedPiece;
     
     private InputAction _leftClickAction;
-    private InputContext _currentInputContext;
 
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _boardManager = GetComponent<BoardManager>();
         _leftClickAction = _playerInput.actions["Point"];
-        _currentInputContext = InputContext.Gameplay;
     }
 
     void OnEnable()
@@ -37,7 +29,7 @@ public class InputHandler : MonoBehaviour
 
     private void OnPointPerfomed(InputAction.CallbackContext context)
     {
-        if(_currentInputContext == InputContext.Gameplay)
+        if(GameManager.Instance.CurrentGameState == GameState.Gameplay)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePosition), Vector2.zero);
