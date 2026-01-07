@@ -2102,6 +2102,7 @@ MonoBehaviour:
   tileSelectionPrefab: {fileID: 8285636830844963984, guid: 68e155c45ea19da41af12c9770fc4177, type: 3}
   previewMoveSprite: {fileID: -3951874048705437906, guid: 145f1b521a0a3fb4b9f90f62d5844637, type: 3}
   previewAttackSprite: {fileID: -2496857964718600112, guid: cf3604420d877484b97dd9ad7965453a, type: 3}
+  previewAttackRouteSprite: {fileID: 1564696884987067740, guid: d6c34ab191af46a4db29339dc8844970, type: 3}
   selectionSprite: {fileID: 2422135711450626327, guid: c6ebf6834c362c742b2b2beb830b626b, type: 3}
 --- !u!1 &525507285
 GameObject:

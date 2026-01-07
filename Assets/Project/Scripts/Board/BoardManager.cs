@@ -15,8 +15,9 @@ public class BoardManager : MonoBehaviour
     private BoardTile _selectedTile;
     private SpriteRenderer _selectionInstance;
     private List<SpriteRenderer> _previewInstances = new List<SpriteRenderer>();
-    private List<BoardCreator.Coordinate> validMoves;
-    private List<BoardCreator.Coordinate> validAttacks;
+    private List<BoardCreator.Coordinate> _validMoves;
+    private List<BoardCreator.Coordinate> _validAttacks;
+    private SelectionState _currentState;
 
     void Start()
     {
@@ -33,15 +34,15 @@ public class BoardManager : MonoBehaviour
         {
             if(_selectedPiece.Type.hasSecondaryAttack && !_selectedPiece.SecondaryAttackUsed)
             {
-                Debug.Log("Secondary attack triggered!");
+                //Debug.Log("Secondary attack triggered!");
                 ClearMovePreviews();
                 ShowSecondaryPreview(tile);
-                _selectedPiece.ToggleSecondaryAttack();
+                _selectedPiece.ToggleSecondaryAttack(true);
                 selectedPiece = _selectedTile;
                 return;
             }
 
-            _selectedPiece.ToggleSecondaryAttack();
+            _selectedPiece.ToggleSecondaryAttack(false);
             _selectedTile = null;
             _selectedPiece = null;
             _selectionInstance.gameObject.SetActive(false);
@@ -59,7 +60,16 @@ public class BoardManager : MonoBehaviour
                 return;
             }
 
-            TryMoveSelectedPiece(_selectedTile, tile);
+            if(_currentState == SelectionState.Move)
+            {
+                TryMoveSelectedPiece(_selectedTile, tile);
+            }
+            else if(_currentState == SelectionState.Attack)
+            {
+                TryAttackSelectedPiece(_selectedTile, tile);
+            }
+
+            
             _selectedTile = null;
             _selectedPiece = null;
             _selectionInstance.gameObject.SetActive(false);
@@ -73,24 +83,54 @@ public class BoardManager : MonoBehaviour
 
     void SelectPieceOnTile(BoardTile tile, out BoardTile selectedPiece)
     {
-        _selectedTile = tile;
-        _selectedPiece = _selectedTile.GetOccupyingPiece();
-
-        if(_selectedPiece.Side != GameManager.Instance.CurrentTurn) 
+        if(tile.GetOccupyingPiece().Side != GameManager.Instance.CurrentTurn)
         {
-            _selectedTile = null;
-            _selectedPiece = null;
             selectedPiece = null;
             return;
         }
 
+        _selectedTile = tile;
+        _selectedPiece = _selectedTile.GetOccupyingPiece();
+
+        // if(_selectedPiece.Side != GameManager.Instance.CurrentTurn) 
+        // {
+        //     _selectedTile = null;
+        //     _selectedPiece = null;
+        //     selectedPiece = null;
+        //     return;
+        // }
+
         Vector3 selectionPosition = BoardCreator.Instance.CoordinateToPosition(_selectedTile.XCoord, _selectedTile.YCoord);
         _selectionInstance.transform.position = selectionPosition;
         _selectionInstance.gameObject.SetActive(true);
+        _selectedPiece.ToggleSecondaryAttack(false);
         selectedPiece = _selectedTile;
         ClearMovePreviews();
         ShowPieceMovePreview(_selectedTile);
         ShowPieceAttackPreview(_selectedTile);
+    }
+
+    void TryAttackSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
+    {
+        if(selectedBoardTile == null || targetTile == null)
+            return;
+
+        if(_validAttacks == null || _validAttacks.Count == 0)
+            return;
+
+        if(_validAttacks.Contains(new BoardCreator.Coordinate(targetTile.XCoord, targetTile.YCoord)))
+        {
+            Debug.Log("Range Attack");
+            Piece attacker = selectedBoardTile.GetOccupyingPiece();
+            attacker.RangeAttack(targetTile);
+
+            _selectedTile = null;
+            _selectedPiece = null;
+            _selectionInstance.gameObject.SetActive(false);
+            ClearMovePreviews();
+        }
+
+        _currentState = SelectionState.None;
     }
 
     void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
@@ -98,10 +138,10 @@ public class BoardManager : MonoBehaviour
         if(selectedBoardTile == null || targetTile == null)
             return;
 
-        if(validMoves == null || validMoves.Count == 0)
+        if(_validMoves == null || _validMoves.Count == 0)
             return;
 
-        if(validMoves.Contains(new BoardCreator.Coordinate(targetTile.XCoord, targetTile.YCoord)))
+        if(_validMoves.Contains(new BoardCreator.Coordinate(targetTile.XCoord, targetTile.YCoord)))
         {
             Piece pieceToMove = selectedBoardTile.GetOccupyingPiece();
             //Debug.Log($"Moving from ({selectedBoardTile.XCoord}, {selectedBoardTile.YCoord}) to ({targetTile.XCoord}, {targetTile.YCoord})");
@@ -116,7 +156,6 @@ public class BoardManager : MonoBehaviour
             
                 selectedBoardTile.RemovePiece();
 
-                // Clear selection and previews
                 _selectedTile = null;
                 _selectedPiece = null;
                 _selectionInstance.gameObject.SetActive(false);
@@ -134,13 +173,15 @@ public class BoardManager : MonoBehaviour
             _selectionInstance.gameObject.SetActive(false);
             
         }
+
+        _currentState = SelectionState.None;
         
     }
 
     void ShowPieceMovePreview(BoardTile tile)
     {
-        validMoves = Validator.PreviewValidMoves(tile);
-        foreach (var move in validMoves)
+        _validMoves = Validator.PreviewValidMoves(tile);
+        foreach (var move in _validMoves)
         {
             Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(move.x, move.y);
             SpriteRenderer previewInstance = Instantiate(tileSelectionPrefab);
@@ -149,6 +190,8 @@ public class BoardManager : MonoBehaviour
             previewInstance.transform.position = previewPosition;
             _previewInstances.Add(previewInstance);
         }
+
+        _currentState = SelectionState.Move;
     }
 
     void ShowPieceAttackPreview(BoardTile tile)
@@ -162,14 +205,13 @@ public class BoardManager : MonoBehaviour
             previewInstance.sortingOrder = 1;
             previewInstance.transform.position = previewPosition;
             _previewInstances.Add(previewInstance);
-            validMoves.Add(move);
+            _validMoves.Add(move);
         }
     }
 
     void ShowSecondaryPreview(BoardTile tile)
     {   
-        List<BoardCreator.Coordinate> possibleAttack = new List<BoardCreator.Coordinate>();
-        var attackRoutePreview = Validator.PreviewProjectile(tile, out possibleAttack);
+        var attackRoutePreview = Validator.PreviewProjectile(tile, out _validAttacks);
 
         foreach(var preview in attackRoutePreview)
         {
@@ -181,7 +223,7 @@ public class BoardManager : MonoBehaviour
             _previewInstances.Add(previewInstance);
         }
 
-        foreach(var previewAttack in possibleAttack)
+        foreach(var previewAttack in _validAttacks)
         {
             Vector3 previewPosition = BoardCreator.Instance.CoordinateToPosition(previewAttack.x, previewAttack.y);
             SpriteRenderer previewInstance = Instantiate(tileSelectionPrefab);
@@ -190,6 +232,8 @@ public class BoardManager : MonoBehaviour
             previewInstance.transform.position = previewPosition;
             _previewInstances.Add(previewInstance);
         }
+
+        _currentState = SelectionState.Attack;
     }
 
     void ClearMovePreviews()
@@ -198,8 +242,17 @@ public class BoardManager : MonoBehaviour
         {
             Destroy(preview.gameObject);
         }
+        _validAttacks = null;
         _previewInstances.Clear();
-        validMoves = null;
+        _validMoves = null;
+        _currentState = SelectionState.None;
     }
 
+}
+
+public enum SelectionState
+{
+    Move,
+    Attack,
+    None
 }

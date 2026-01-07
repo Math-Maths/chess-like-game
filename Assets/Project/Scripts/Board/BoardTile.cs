@@ -44,6 +44,20 @@ public class BoardTile : MonoBehaviour
         occupyingPiece = piece;
     }
 
+    public void PieceAttack(Piece attacker, bool isRanged)
+    {
+        if(!isRanged)
+        {
+            occupyingPiece.Die();
+            RemovePiece();
+            PlacePiece(attacker);
+            return;
+        }
+
+        occupyingPiece.Die();
+        RemovePiece();
+    }
+
     public void RemovePiece()
     {
         occupyingPiece = null;

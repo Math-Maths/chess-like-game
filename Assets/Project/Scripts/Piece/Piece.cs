@@ -61,7 +61,7 @@ public class Piece : MonoBehaviour
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
         GameManager.Instance.CurrentGameState = GameState.Busy;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
 
         foreach (var coord in path)
         {
@@ -69,10 +69,11 @@ public class Piece : MonoBehaviour
             //Debug.Log($"Moving to {coord.x}, {coord.y}");
             // Simple instant move for now; can be replaced with smooth movement
             transform.position = targetPosition;
-            yield return new WaitForSeconds(1f); // Pause briefly between steps
+            yield return new WaitForSeconds(.5f); // Pause briefly between steps
         }
 
         BoardTile lastTile = BoardCreator.Instance.GetTileAt(path[path.Length - 1].x, path[path.Length - 1].y);
+
         if(lastTile != null)
         {
             lastTile.PlacePiece(this);
@@ -83,11 +84,22 @@ public class Piece : MonoBehaviour
         GameManager.Instance.CurrentGameState = GameState.Gameplay;
     }
 
-    public void ToggleSecondaryAttack()
+    public void RangeAttack(BoardTile targetTile)
+    {
+        //TODO
+        //shoots a projectile or play a attack animation
+        //starts a coroutine that waits the animation ends to kill the piece
+
+        targetTile.PieceAttack(this, true);
+        GameManager.Instance.ToggleTurn();
+        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+    }
+
+    public void ToggleSecondaryAttack(bool state)
     {
         if(type.hasSecondaryAttack)
         {
-            _secondaryAttackUsed = !SecondaryAttackUsed;
+            _secondaryAttackUsed = state;
         }
     }
 

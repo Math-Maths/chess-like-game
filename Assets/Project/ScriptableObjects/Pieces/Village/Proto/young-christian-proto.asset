@@ -31,5 +31,5 @@ MonoBehaviour:
   - {x: -1, y: 1}
   - {x: -1, y: -1}
   - {x: 1, y: -1}
-  canShootProjectiles: 0
-  projectileRange: 0
+  canShootProjectiles: 1
+  attackRange: 5
