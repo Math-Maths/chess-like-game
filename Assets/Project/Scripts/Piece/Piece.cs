@@ -5,7 +5,9 @@ using ChessGame;
 public class Piece : MonoBehaviour
 {
     [SerializeField] SpriteRenderer outlineSprite;
+    [SerializeField] BaseProjectile projectile;
 
+    private BoardTile _currentTarget;
     private SpriteRenderer spriteRenderer;
     private PieceTypeSO type;
     private PieceSide color;
@@ -89,10 +91,13 @@ public class Piece : MonoBehaviour
         //TODO
         //shoots a projectile or play a attack animation
         //starts a coroutine that waits the animation ends to kill the piece
+        _currentTarget = targetTile;
+        Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(_currentTarget.XCoord, _currentTarget.YCoord);
+        BaseProjectile projectileGO = Instantiate(projectile, transform.position, Quaternion.identity);
+        projectileGO.OnHitTarget += KillEnemyPiece;
+        projectileGO.GoToTarget(targetPosition, type.projectileSpeed);
 
-        targetTile.PieceAttack(this, true);
-        GameManager.Instance.ToggleTurn();
-        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+        
     }
 
     public void ToggleSecondaryAttack(bool state)
@@ -101,6 +106,14 @@ public class Piece : MonoBehaviour
         {
             _secondaryAttackUsed = state;
         }
+    }
+
+    void KillEnemyPiece()
+    {
+        _currentTarget.PieceAttack(this, true);
+        GameManager.Instance.ToggleTurn();
+        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+        _currentTarget = null;
     }
 
     public void Die()

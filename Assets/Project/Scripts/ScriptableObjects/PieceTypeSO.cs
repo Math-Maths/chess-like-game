@@ -29,6 +29,10 @@ public class PieceTypeSO : ScriptableObject
 
     [ConditionalField("canShootProjectiles")]
     public int attackRange;
+    [ConditionalField("canShootProjectiles")]
+    public float projectileSpeed;
+    [ConditionalField("canShootProjectiles")]
+    public Sprite projectileSprite;
 
     public enum PieceCategory
     {

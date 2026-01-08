@@ -189,3 +189,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineSprite: {fileID: 60869546230363826}
+  projectile: {fileID: 3598223598255105678, guid: 47f8ea07ee465b240bb9423b095fb19e, type: 3}
