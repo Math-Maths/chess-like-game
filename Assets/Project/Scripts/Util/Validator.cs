@@ -1,12 +1,13 @@
 using ChessGame;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class Validator
 {
-    public static List<BoardCreator.Coordinate> PreviewValidMoves(BoardTile tile)
+    public static List<BoardCreator.Coordinate> PreviewValidMoves(BoardTile tile, bool secondaryMove = false)
     {
-        Piece piece = tile.GetOccupyingPiece();
+        BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
             return new List<BoardCreator.Coordinate>();
 
@@ -16,8 +17,20 @@ public static class Validator
 
         int checkMoveDistance = piece.IsFirstMoveDone ? type.maxMoveDistance : type.firstMoveDistance;
 
-        foreach (var pattern in type.movementPatterns)
+        if(secondaryMove)
         {
+            checkMoveDistance = type.secondaryMoveDistance;
+        }
+        
+        Vector2Int[] currentPatterns = secondaryMove ? type.secondaryMovePatterns : type.movementPatterns;
+
+        foreach (var pattern in currentPatterns)
+        {
+            if(checkMoveDistance == -1)
+            {
+                checkMoveDistance = Math.Max(BoardCreator.Instance.GetCurrentBoard().boardSize.x, BoardCreator.Instance.GetCurrentBoard().boardSize.y);
+            }
+
             for (int distance = 1; distance <= checkMoveDistance; distance++)
             {
                 int targetX = tile.XCoord + pattern.x * distance * pieceSide;
@@ -51,7 +64,7 @@ public static class Validator
 
     public static List<BoardCreator.Coordinate> CheckPossibleAttacks(BoardTile tile)
     {
-        Piece piece = tile.GetOccupyingPiece();
+        BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
             return new List<BoardCreator.Coordinate>();
 
@@ -74,14 +87,17 @@ public static class Validator
                 }
 
                 BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
-                if (targetTile.GetOccupyingPiece() != null && targetTile.GetOccupyingPiece().Side != piece.Side)
+                if (targetTile.GetOccupyingPiece() != null)
                 {
-                    validMoves.Add(new BoardCreator.Coordinate(targetX, targetY));
-
-                    if (!type.canJumpOverPieces)
-                    {
+                    if (!type.canJumpOverPieces && targetTile.GetOccupyingPiece().Side == GameManager.Instance.CurrentTurn)
                         break; // Can't jump over pieces, stop checking further in this direction
-                    }
+
+                    if (targetTile.GetOccupyingPiece().Side != piece.Side)
+                        validMoves.Add(new BoardCreator.Coordinate(targetX, targetY));
+
+                    if (!type.canJumpOverPieces && targetTile.GetOccupyingPiece().Side != piece.Side)
+                        break; // Stop checking further in this direction after finding an occupied tile
+                
                 }
             }
         }
@@ -91,7 +107,7 @@ public static class Validator
 
     public static List<BoardCreator.Coordinate> PreviewProjectile(BoardTile tile, out List<BoardCreator.Coordinate> attackPositions)
     {
-        Piece piece = tile.GetOccupyingPiece();
+        BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
         {
             attackPositions = new List<BoardCreator.Coordinate>();
