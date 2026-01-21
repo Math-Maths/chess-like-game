@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbadc27f74e574fb74ac7cac1279ce, type: 3}
+  m_Name: wanderer
+  m_EditorClassIdentifier: 
+  pieceName: Wanderer
+  pieceSprite: {fileID: -5935639697508351391, guid: d10419c255329f54986a733483fe1604, type: 3}
+  pieceOutlineSprite: {fileID: -5388979140626291377, guid: da4162ab2b0362e4f899591274389301, type: 3}
+  pieceOrderValue: 31
+  piecePrefab: {fileID: 1697679076948624167, guid: 0031c08366104f5448ae2e0cf1c4c6fb, type: 3}
+  category: 4
+  maxMoveDistance: 5
+  firstMoveDistance: 5
+  canJumpOverPieces: 0
+  hasSecondaryAttack: 0
+  hasSecondaryMove: 1
+  movementPatterns:
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  attackPatterns:
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  secondaryMovePatterns:
+  - {x: 0, y: -1}
+  secondaryMoveDistance: 1
+  canShootProjectiles: 0
+  attackRange: 0
+  attackSpeed: 0
+  attackSprite: {fileID: 0}

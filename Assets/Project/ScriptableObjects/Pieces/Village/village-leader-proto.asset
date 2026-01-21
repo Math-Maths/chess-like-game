@@ -16,10 +16,13 @@ MonoBehaviour:
   pieceSprite: {fileID: -8319913397751345365, guid: db481c4176ef2644b816f381adb3ef60, type: 3}
   pieceOutlineSprite: {fileID: 7336708360560722447, guid: f74a1a1dcdf51d74a87120ebc6adf151, type: 3}
   pieceOrderValue: 32
-  hasSecondaryAttack: 0
+  piecePrefab: {fileID: 6601712666024639312, guid: e5387182af7a77c49bae270bd885b737, type: 3}
+  category: 0
   maxMoveDistance: 1
   firstMoveDistance: 1
   canJumpOverPieces: 0
+  hasSecondaryAttack: 0
+  hasSecondaryMove: 0
   movementPatterns:
   - {x: 1, y: 0}
   - {x: 1, y: 1}
@@ -38,3 +41,9 @@ MonoBehaviour:
   - {x: 0, y: 1}
   - {x: -1, y: -1}
   - {x: -1, y: 0}
+  secondaryMovePatterns: []
+  secondaryMoveDistance: 0
+  canShootProjectiles: 0
+  attackRange: 0
+  attackSpeed: 0
+  attackSprite: {fileID: 0}

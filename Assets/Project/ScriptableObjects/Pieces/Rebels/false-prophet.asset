@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbadc27f74e574fb74ac7cac1279ce, type: 3}
+  m_Name: false-prophet
+  m_EditorClassIdentifier: 
+  pieceName: False Prophet
+  pieceSprite: {fileID: -174594865632196251, guid: c9b5f75bbe48e784e94c42d12394705b, type: 3}
+  pieceOutlineSprite: {fileID: 4067616854412867965, guid: 58dfce854da08f440a700f3b038cae0a, type: 3}
+  pieceOrderValue: 30
+  piecePrefab: {fileID: 6601712666024639312, guid: e5387182af7a77c49bae270bd885b737, type: 3}
+  category: 3
+  maxMoveDistance: -1
+  firstMoveDistance: -1
+  canJumpOverPieces: 0
+  hasSecondaryAttack: 0
+  hasSecondaryMove: 0
+  movementPatterns:
+  - {x: 1, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  attackPatterns:
+  - {x: 1, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  secondaryMovePatterns: []
+  secondaryMoveDistance: 0
+  canShootProjectiles: 0
+  attackRange: 0
+  attackSpeed: 0
+  attackSprite: {fileID: 0}

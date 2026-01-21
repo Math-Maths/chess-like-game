@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbadc27f74e574fb74ac7cac1279ce, type: 3}
+  m_Name: rebels-leader
+  m_EditorClassIdentifier: 
+  pieceName: Rebels Leader
+  pieceSprite: {fileID: 2744941176008989313, guid: 44ef1ac2a9ad9704097bdf75c34c5b04, type: 3}
+  pieceOutlineSprite: {fileID: 1470118082211901759, guid: 01a7b8853818cf442b050da0d2ebc6c6, type: 3}
+  pieceOrderValue: 32
+  piecePrefab: {fileID: 6601712666024639312, guid: e5387182af7a77c49bae270bd885b737, type: 3}
+  category: 5
+  maxMoveDistance: 1
+  firstMoveDistance: 1
+  canJumpOverPieces: 0
+  hasSecondaryAttack: 0
+  hasSecondaryMove: 0
+  movementPatterns:
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  attackPatterns:
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
+  - {x: 1, y: -1}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  secondaryMovePatterns: []
+  secondaryMoveDistance: 0
+  canShootProjectiles: 0
+  attackRange: 0
+  attackSpeed: 0
+  attackSprite: {fileID: 0}

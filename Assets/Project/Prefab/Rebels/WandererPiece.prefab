@@ -97,9 +97,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8937706588133263229}
   - component: {fileID: 4340750287737604292}
-  - component: {fileID: 6601712666024639312}
+  - component: {fileID: 1697679076948624167}
   m_Layer: 0
-  m_Name: PiecePrefab
+  m_Name: WandererPiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6601712666024639312
+--- !u!114 &1697679076948624167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3609458194287011382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16999847b587f8246bce623f47d5f282, type: 3}
+  m_Script: {fileID: 11500000, guid: af73f3f6735dcce479417a65c93ad3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outlineSprite: {fileID: 60869546230363826}
