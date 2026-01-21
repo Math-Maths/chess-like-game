@@ -9,6 +9,7 @@ public class PieceTypeSO : ScriptableObject
     public Sprite pieceSprite;
     public Sprite pieceOutlineSprite;
     public int pieceOrderValue;
+    public BasePiece piecePrefab;
     public PieceCategory category;
 
     [Space(20)]
@@ -17,22 +18,25 @@ public class PieceTypeSO : ScriptableObject
     public int firstMoveDistance;
     public bool canJumpOverPieces;
     public bool hasSecondaryAttack;
+    public bool hasSecondaryMove;
 
     [Space(20)]
     [Header("Movement and Attack Patterns")]
     public Vector2Int[] movementPatterns;
     public Vector2Int[] attackPatterns;
+    public Vector2Int[] secondaryMovePatterns;
+    public int secondaryMoveDistance;
 
     [Space(20)]
-    [Header("Projectile Properties")]
+    [Header("Secondary Attack Properties")]
     public bool canShootProjectiles;
 
     [ConditionalField("canShootProjectiles")]
     public int attackRange;
     [ConditionalField("canShootProjectiles")]
-    public float projectileSpeed;
+    public float attackSpeed;
     [ConditionalField("canShootProjectiles")]
-    public Sprite projectileSprite;
+    public Sprite attackSprite;
 
     public enum PieceCategory
     {

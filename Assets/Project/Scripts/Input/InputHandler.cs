@@ -38,7 +38,7 @@ public class InputHandler : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent<BoardTile>(out BoardTile tile))
                 {
-                    Piece piece = tile.GetOccupyingPiece();
+                    BasePiece piece = tile.GetOccupyingPiece();
 
                     #region Deprecated
                     // if(_selectedPiece != null)
@@ -50,9 +50,8 @@ public class InputHandler : MonoBehaviour
                     // }
                     #endregion
 
-                    if(piece != null || _selectedPiece != null)
+                    if(piece != null || _selectedPiece != null || _boardManager.CurrentState == SelectionState.SecondaryMove)
                     {
-                        //Debug.Log($"Clicked on piece: {piece.name} at tile: {tile.name}");
                         _boardManager.HandleSelection(tile, out _selectedPiece);
                     }
                     else

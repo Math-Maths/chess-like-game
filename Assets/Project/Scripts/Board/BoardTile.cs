@@ -4,7 +4,7 @@ using Unity.XR.Oculus.Input;
 
 public class BoardTile : MonoBehaviour
 {
-    private Piece occupyingPiece = null;
+    private BasePiece occupyingPiece = null;
     [SerializeField] private BoardCreator.Coordinate coordinate;
 
     public int XCoord
@@ -27,12 +27,12 @@ public class BoardTile : MonoBehaviour
         }
     }
 
-    public Piece GetOccupyingPiece()
+    public BasePiece GetOccupyingPiece()
     {
         return occupyingPiece;
     }
 
-    public void PlacePiece(Piece piece)
+    public void PlacePiece(BasePiece piece)
     {
         if(occupyingPiece != null)
         {
@@ -42,9 +42,10 @@ public class BoardTile : MonoBehaviour
         }
         
         occupyingPiece = piece;
+        piece.ChangeOccupyingTile(this);
     }
 
-    public void PieceAttack(Piece attacker, bool isRanged)
+    public void PieceAttack(BasePiece attacker, bool isRanged)
     {
         if(!isRanged)
         {
