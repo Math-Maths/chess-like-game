@@ -2,17 +2,18 @@ using System.Collections;
 using UnityEngine;
 using ChessGame;
 
-public class Piece : MonoBehaviour
+public class BasePiece : MonoBehaviour
 {
     [SerializeField] SpriteRenderer outlineSprite;
     [SerializeField] BaseProjectile projectile;
 
-    private BoardTile _currentTarget;
-    private SpriteRenderer spriteRenderer;
-    private PieceTypeSO type;
-    private PieceSide color;
-    private bool firstMoveDone = false;
-    private bool _secondaryAttackUsed = false;
+    protected BoardTile _currentTarget;
+    protected BoardTile _occupyingTile;
+    protected SpriteRenderer spriteRenderer;
+    protected PieceTypeSO type;
+    protected PieceSide color;
+    protected bool firstMoveDone = false;
+    protected bool _secondaryAttackUsed = false;
 
     public PieceSide Side
     {
@@ -22,6 +23,11 @@ public class Piece : MonoBehaviour
     public PieceTypeSO Type
     {
         get { return type; }
+    }
+
+    public BoardTile OccupyingTile
+    {
+        get { return _occupyingTile; }
     }
 
     public bool SecondaryAttackUsed
@@ -36,28 +42,25 @@ public class Piece : MonoBehaviour
         set { firstMoveDone = value; }
     }
 
-    public void Initialize(PieceTypeSO newType, PieceSide side, Color outlineColor)
+    public void Initialize(PieceTypeSO newType, PieceSide side, Color outlineColor, BoardTile occupyingTile, string customName = "")
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         type = newType;
         color = side;
+        _occupyingTile = occupyingTile;
         spriteRenderer.sprite = type.pieceSprite;
         outlineSprite.sprite = type.pieceOutlineSprite;
         outlineSprite.color = outlineColor;
-        gameObject.name = type.pieceName;
+        gameObject.name = type.pieceName + (customName != "" ? $"_{customName}" : "");
         spriteRenderer.sortingOrder = type.pieceOrderValue;
         outlineSprite.sortingOrder = type.pieceOrderValue + 1;
         firstMoveDone = false;
     }
 
-    public void StartMove(BoardCreator.Coordinate[] path)
+    public virtual void StartMove(BoardCreator.Coordinate[] path)
     {
-        // Implement movement along the given path
-        // This could involve animations or instant movement
-        // For simplicity, we'll just move instantly to the last position in the path
         StartCoroutine(WalkPath(path));
-        
     }
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
@@ -68,10 +71,9 @@ public class Piece : MonoBehaviour
         foreach (var coord in path)
         {
             Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(coord.x, coord.y);
-            //Debug.Log($"Moving to {coord.x}, {coord.y}");
-            // Simple instant move for now; can be replaced with smooth movement
+
             transform.position = targetPosition;
-            yield return new WaitForSeconds(.5f); // Pause briefly between steps
+            yield return new WaitForSeconds(.5f);
         }
 
         BoardTile lastTile = BoardCreator.Instance.GetTileAt(path[path.Length - 1].x, path[path.Length - 1].y);
@@ -82,22 +84,19 @@ public class Piece : MonoBehaviour
         }
 
         firstMoveDone = true;
-        GameManager.Instance.ToggleTurn();
-        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+
+        FinishTurn();
     }
 
     public void RangeAttack(BoardTile targetTile)
     {
         //TODO
-        //shoots a projectile or play a attack animation
         //starts a coroutine that waits the animation ends to kill the piece
         _currentTarget = targetTile;
         Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(_currentTarget.XCoord, _currentTarget.YCoord);
         BaseProjectile projectileGO = Instantiate(projectile, transform.position, Quaternion.identity);
         projectileGO.OnHitTarget += KillEnemyPiece;
-        projectileGO.GoToTarget(targetPosition, type.projectileSpeed);
-
-        
+        projectileGO.GoToTarget(targetPosition, type.attackSpeed);
     }
 
     public void ToggleSecondaryAttack(bool state)
@@ -116,8 +115,19 @@ public class Piece : MonoBehaviour
         _currentTarget = null;
     }
 
+    public void ChangeOccupyingTile(BoardTile newTile)
+    {
+        _occupyingTile = newTile;
+    }
+
     public void Die()
     {
         gameObject.SetActive(false);
+    }
+
+    protected void FinishTurn()
+    {
+        GameManager.Instance.ToggleTurn();
+        GameManager.Instance.CurrentGameState = GameState.Gameplay;
     }
 }

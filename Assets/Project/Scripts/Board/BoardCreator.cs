@@ -136,7 +136,7 @@ public class BoardCreator : MonoBehaviour
         return new Vector3(-_currentBoard.boardSize.x/2 + offsetX + x, -_currentBoard.boardSize.y/2 + offsetY + y, 0);
     }
 
-    public void SetPieceOnTile(int x, int y, Piece piece)
+    public void SetPieceOnTile(int x, int y, BasePiece piece)
     {
         if(x < 0 || x >= _currentBoard.boardSize.x || y < 0 || y >= _currentBoard.boardSize.y)
         {
