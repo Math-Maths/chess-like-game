@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public void ToggleTurn()
     {
         CurrentTurn = CurrentTurn == PieceSide.Player ? PieceSide.Enemy : PieceSide.Player;
+        EventManager.Instance.Invoke(EventNameSaver.OnTurnChange);
     }
 }
 

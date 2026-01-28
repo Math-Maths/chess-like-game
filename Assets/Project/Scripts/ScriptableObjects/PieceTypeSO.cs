@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PieceType", menuName = "ScriptableObjects/Piece Type")]
@@ -19,6 +18,7 @@ public class PieceTypeSO : ScriptableObject
     public bool canJumpOverPieces;
     public bool hasSecondaryAttack;
     public bool hasSecondaryMove;
+    public bool canMoveToAllyTiles;
 
     [Space(20)]
     [Header("Movement and Attack Patterns")]

@@ -4,9 +4,9 @@ using System.Collections;
 
 public class PieceWanderer : BasePiece, IPieceCapture
 {
-    public void OnPieceCaptured(BoardTile lastPieceTile)
+    public void OnPieceCaptured(BaseBoardTile lastPieceTile)
     {
-        lastPieceTile.PlacePiece(this);
+        lastPieceTile.HandlePiecePlacement(this);
 
         if(BoardManager.Instance.ShowPieceMovePreview(_occupyingTile, true).Count > 0)
         {
@@ -29,6 +29,7 @@ public class PieceWanderer : BasePiece, IPieceCapture
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
         GameManager.Instance.CurrentGameState = GameState.Busy;
+        _occupyingTile.RemovePiece();
         yield return new WaitForSeconds(.5f);
 
         foreach (var coord in path)
@@ -39,7 +40,7 @@ public class PieceWanderer : BasePiece, IPieceCapture
             yield return new WaitForSeconds(.5f);
         }
 
-        BoardTile lastTile = BoardCreator.Instance.GetTileAt(path[path.Length - 1].x, path[path.Length - 1].y);
+        BaseBoardTile lastTile = BoardCreator.Instance.GetTileAt(path[path.Length - 1].x, path[path.Length - 1].y);
 
         if(lastTile != null && lastTile.GetOccupyingPiece() != null && lastTile.GetOccupyingPiece() != this)
         {
@@ -47,7 +48,7 @@ public class PieceWanderer : BasePiece, IPieceCapture
         }
         else if(lastTile != null)
         {
-            lastTile.PlacePiece(this);
+            lastTile.HandlePiecePlacement(this);
             FinishTurn();
         }
     }

@@ -16,7 +16,7 @@ MonoBehaviour:
   pieceSprite: {fileID: -2262647735747319561, guid: cfb25bf3c663f7e4188521b8d839e0d0, type: 3}
   pieceOutlineSprite: {fileID: 6605681912099889281, guid: 6af1beaf5e51c104b95168c942fcc830, type: 3}
   pieceOrderValue: 29
-  piecePrefab: {fileID: 6601712666024639312, guid: e5387182af7a77c49bae270bd885b737, type: 3}
+  piecePrefab: {fileID: 4075332842086487683, guid: 1a287f253bc5b304492cd0445ffd9314, type: 3}
   category: 2
   maxMoveDistance: 1
   firstMoveDistance: 1
