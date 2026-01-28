@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558b38c0e700cae40b793ecea4872275, type: 3}
+  m_Name: Board_3
+  m_EditorClassIdentifier: 
+  boardName: Segundo
+  boardSize:
+    x: 8
+    y: 16
+  whiteTileSprite: {fileID: -5228092943908554496, guid: 68e9e67e367641d4b8e37084bc26408c, type: 3}
+  blackTileSprite: {fileID: 4508142643093186415, guid: 4c243b1c97b42cc49a57d5c0e53dbe2d, type: 3}
