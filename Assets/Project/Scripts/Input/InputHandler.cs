@@ -6,7 +6,7 @@ public class InputHandler : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private BoardManager _boardManager;
-    private BoardTile _selectedPiece;
+    private BaseBoardTile _selectedPiece;
     
     private InputAction _leftClickAction;
 
@@ -36,7 +36,7 @@ public class InputHandler : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if(hit.collider.TryGetComponent<BoardTile>(out BoardTile tile))
+                if(hit.collider.TryGetComponent<BaseBoardTile>(out BaseBoardTile tile))
                 {
                     BasePiece piece = tile.GetOccupyingPiece();
 
@@ -49,6 +49,12 @@ public class InputHandler : MonoBehaviour
                     //     return;
                     // }
                     #endregion
+
+                    if(piece != null && !piece.IsAvailable)
+                    {
+                        //Debug.Log($"Clicked on piece not available: {piece.gameObject.name}");
+                        return;
+                    }
 
                     if(piece != null || _selectedPiece != null || _boardManager.CurrentState == SelectionState.SecondaryMove)
                     {

@@ -1,5 +1,5 @@
-interface IPieceHover
+public interface IPieceHover
 {
-    void OnPieceHover();
+    void OnPieceHover(BasePiece hoveredPiece);
     //void OnPieceExitHover();
 }

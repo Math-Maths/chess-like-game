@@ -14,7 +14,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] Sprite selectionSprite;
 
     private BasePiece _selectedPiece;
-    private BoardTile _selectedTile;
+    private BaseBoardTile _selectedTile;
     private SpriteRenderer _selectionInstance;
     private List<SpriteRenderer> _previewInstances = new List<SpriteRenderer>();
     private List<BoardCreator.Coordinate> _validMoves;
@@ -43,7 +43,7 @@ public class BoardManager : MonoBehaviour
         _selectionInstance.gameObject.SetActive(false);
     }
 
-    public void HandleSelection(BoardTile tile, out BoardTile selectedPiece)
+    public void HandleSelection(BaseBoardTile tile, out BaseBoardTile selectedPiece)
     {
 
         //Debug.Log(_currentState);
@@ -76,6 +76,17 @@ public class BoardManager : MonoBehaviour
         }
         else if(_selectedTile != tile && _selectedPiece != null)
         {
+            if(_selectedPiece.Type.canMoveToAllyTiles)
+            {
+                TryMoveSelectedPiece(_selectedTile, tile);
+                _selectedTile = null;
+                _selectedPiece = null;
+                _selectionInstance.gameObject.SetActive(false);
+                ClearMovePreviews();
+                selectedPiece = null;
+                return;
+            }
+
             if(tile.GetOccupyingPiece() != _selectedPiece && 
                 tile.GetOccupyingPiece() != null && 
                 tile.GetOccupyingPiece().Side == _selectedPiece.Side &&
@@ -111,7 +122,7 @@ public class BoardManager : MonoBehaviour
         SelectPieceOnTile(tile, out selectedPiece);
     }
 
-    void SelectPieceOnTile(BoardTile tile, out BoardTile selectedPiece)
+    void SelectPieceOnTile(BaseBoardTile tile, out BaseBoardTile selectedPiece)
     {
         if(tile.GetOccupyingPiece().Side != GameManager.Instance.CurrentTurn)
         {
@@ -138,7 +149,7 @@ public class BoardManager : MonoBehaviour
         ShowPieceAttackPreview(_selectedTile);
     }
 
-    void TryAttackSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
+    void TryAttackSelectedPiece(BaseBoardTile selectedBoardTile, BaseBoardTile targetTile)
     {
         if(selectedBoardTile == null || targetTile == null)
             return;
@@ -161,7 +172,7 @@ public class BoardManager : MonoBehaviour
         _currentState = SelectionState.None;
     }
 
-    void TryMoveSelectedPiece(BoardTile selectedBoardTile, BoardTile targetTile)
+    void TryMoveSelectedPiece(BaseBoardTile selectedBoardTile, BaseBoardTile targetTile)
     {
         if(selectedBoardTile == null || targetTile == null)
             return;
@@ -182,7 +193,7 @@ public class BoardManager : MonoBehaviour
             {
                 pieceToMove.StartMove(movePath);
             
-                selectedBoardTile.RemovePiece();
+                //selectedBoardTile.RemovePiece();
 
                 _selectionInstance.gameObject.SetActive(false);
                 ClearMovePreviews();
@@ -206,7 +217,7 @@ public class BoardManager : MonoBehaviour
         
     }
 
-    public List<BoardCreator.Coordinate> ShowPieceMovePreview(BoardTile tile, bool seconderyMove = false)
+    public List<BoardCreator.Coordinate> ShowPieceMovePreview(BaseBoardTile tile, bool seconderyMove = false)
     {
         _validMoves = Validator.PreviewValidMoves(tile, seconderyMove);
         foreach (var move in _validMoves)
@@ -224,7 +235,7 @@ public class BoardManager : MonoBehaviour
         return _validMoves;
     }
 
-    void ShowPieceAttackPreview(BoardTile tile)
+    void ShowPieceAttackPreview(BaseBoardTile tile)
     {
         var attackMoves = Validator.CheckPossibleAttacks(tile);
         foreach (var move in attackMoves)
@@ -239,7 +250,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void ShowRangeAttackPreview(BoardTile tile)
+    void ShowRangeAttackPreview(BaseBoardTile tile)
     {   
         var attackRoutePreview = Validator.PreviewProjectile(tile, out _validAttacks);
 

@@ -1,4 +1,4 @@
 public interface IPieceCapture
 {
-    void OnPieceCaptured(BoardTile lastPieceTile);
+    void OnPieceCaptured(BaseBoardTile lastPieceTile);
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class Validator
 {
-    public static List<BoardCreator.Coordinate> PreviewValidMoves(BoardTile tile, bool secondaryMove = false)
+    public static List<BoardCreator.Coordinate> PreviewValidMoves(BaseBoardTile tile, bool secondaryMove = false)
     {
         BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
@@ -44,14 +44,24 @@ public static class Validator
                 }
 
                 // If the target tile is occupied, stop checking further in this direction
-                BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
+                BaseBoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
                 if(targetTile.GetOccupyingPiece() != null)
                 {
+                    //If occupied by ally and can move to ally tiles is allowed
+                    //The piece itself will handle what happens when moving to ally tiles
+                    if(targetTile.GetOccupyingPiece().Side == piece.Side && type.canMoveToAllyTiles)
+                    {
+                        validMoves.Add(new BoardCreator.Coordinate(targetX, targetY));
+                        continue;
+                    }
+                    
+                    //Jump over pieces logic
                     if(type.canJumpOverPieces)
                     {
                         continue;
                     }
-
+                    
+                    //If cannot jump over pieces, stop checking further in this direction
                     break;
                 }
 
@@ -62,7 +72,7 @@ public static class Validator
         return validMoves;
     }
 
-    public static List<BoardCreator.Coordinate> CheckPossibleAttacks(BoardTile tile)
+    public static List<BoardCreator.Coordinate> CheckPossibleAttacks(BaseBoardTile tile)
     {
         BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
@@ -86,7 +96,7 @@ public static class Validator
                     continue; // Out of bounds, skip this attack pattern
                 }
 
-                BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
+                BaseBoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
                 if (targetTile.GetOccupyingPiece() != null)
                 {
                     if (!type.canJumpOverPieces && targetTile.GetOccupyingPiece().Side == GameManager.Instance.CurrentTurn)
@@ -105,7 +115,7 @@ public static class Validator
         return validMoves;
     }
 
-    public static List<BoardCreator.Coordinate> PreviewProjectile(BoardTile tile, out List<BoardCreator.Coordinate> attackPositions)
+    public static List<BoardCreator.Coordinate> PreviewProjectile(BaseBoardTile tile, out List<BoardCreator.Coordinate> attackPositions)
     {
         BasePiece piece = tile.GetOccupyingPiece();
         if (piece == null)
@@ -132,7 +142,7 @@ public static class Validator
                     continue;
                 }
 
-                BoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
+                BaseBoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
                 if (targetTile.GetOccupyingPiece() != null && targetTile.GetOccupyingPiece().Side != piece.Side)
                 {
                     supportAttackPositions.Add(new BoardCreator.Coordinate(targetX, targetY));

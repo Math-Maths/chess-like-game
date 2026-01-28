@@ -1,26 +1,26 @@
 using UnityEngine;
 using ChessGame;
-using Unity.XR.Oculus.Input;
 
-public class BoardTile : MonoBehaviour
+public class BaseBoardTile : MonoBehaviour
 {
-    private BasePiece occupyingPiece = null;
-    [SerializeField] private BoardCreator.Coordinate coordinate;
+    private BasePiece _occupyingPiece;
+    private BoardCreator.Coordinate _coordinate;
 
     public int XCoord
     {
-        get{ return coordinate.x; }
+        get{ return _coordinate.x; }
     }
 
     public int YCoord
     {
-        get{ return coordinate.y; }
+        get{ return _coordinate.y; }
     }
 
     public void SetTile(Sprite sprite, BoardCreator.Coordinate coord)
     {
-        coordinate = coord;
-        gameObject.name = $"Tile ({coordinate.x}, {coordinate.y})";
+        _coordinate = coord;
+        _occupyingPiece = null;
+        gameObject.name = $"Tile ({_coordinate.x}, {_coordinate.y})";
         if(TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
         {
             spriteRenderer.sprite = sprite;
@@ -29,38 +29,45 @@ public class BoardTile : MonoBehaviour
 
     public BasePiece GetOccupyingPiece()
     {
-        return occupyingPiece;
+        return _occupyingPiece;
     }
 
-    public void PlacePiece(BasePiece piece)
+    public void HandlePiecePlacement(BasePiece piece)
     {
-        if(occupyingPiece != null)
+        if(_occupyingPiece != null)
         {
-            //Debug.LogWarning($"Tile ({XCoord}, {YCoord}) is already occupied by {occupyingPiece.gameObject.name}. Overwriting.");
-            occupyingPiece.Die();
-            RemovePiece();
+            CapturePiece();
         }
         
-        occupyingPiece = piece;
+        _occupyingPiece = piece;
+        _occupyingPiece.SetPosition(transform.position);
         piece.ChangeOccupyingTile(this);
     }
 
-    public void PieceAttack(BasePiece attacker, bool isRanged)
+    public void SwitchPiecesPlaces(BaseBoardTile otherTile)
     {
-        if(!isRanged)
-        {
-            occupyingPiece.Die();
-            RemovePiece();
-            PlacePiece(attacker);
-            return;
-        }
+        BasePiece otherPiece = otherTile.GetOccupyingPiece();
+        BasePiece thisPiece = _occupyingPiece;
 
-        occupyingPiece.Die();
+        otherTile.RemovePiece();
+        RemovePiece();
+        otherTile.HandlePiecePlacement(thisPiece);
+        HandlePiecePlacement(otherPiece);
+    }
+
+    public void CapturePiece()
+    {
+        _occupyingPiece.Die();
         RemovePiece();
     }
 
     public void RemovePiece()
     {
-        occupyingPiece = null;
+        _occupyingPiece = null;
+    }
+
+    public virtual void CheckOnPieceEnter(BasePiece piece)
+    {
+        Debug.Log("Normal Tile");
     }
 }

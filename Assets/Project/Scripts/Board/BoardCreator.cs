@@ -11,11 +11,11 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private int selectedBoardIndex = 0;
     [SerializeField] private BoardSettingsSO[] boards;
 
-    [SerializeField] private BoardTile tilePrefab;
+    //[SerializeField] private BoardTile tilePrefab;
     [SerializeField] private string holderName = "Tile Holder";
     [SerializeField] private string pieceHolderName = "Pieces Holder"; 
 
-    private BoardTile[,] tiles;
+    private BaseBoardTile[,] tiles;
     private BoardSettingsSO _currentBoard;
     private List<Coordinate> _allTileCoordinates;
     private PiecePlacer piecePlacer;
@@ -43,14 +43,14 @@ public class BoardCreator : MonoBehaviour
 
     public void GenerateBoard()
     {
-        if(boards.Length == 0 || tilePrefab == null || selectedBoardIndex < 0 || selectedBoardIndex >= boards.Length)
+        if(boards.Length == 0 || selectedBoardIndex < 0 || selectedBoardIndex >= boards.Length)
         {
             Debug.LogWarning("Boards array is empty or tilePrefab is not assigned.");
             return;
         }
 
         _currentBoard = boards[selectedBoardIndex];
-        tiles = new BoardTile[_currentBoard.boardSize.x, _currentBoard.boardSize.y];
+        tiles = new BaseBoardTile[_currentBoard.boardSize.x, _currentBoard.boardSize.y];
 
         _allTileCoordinates = new List<Coordinate>();
 
@@ -71,15 +71,15 @@ public class BoardCreator : MonoBehaviour
             for (int y = 0; y < _currentBoard.boardSize.y; y++)
             {
                 Vector3 tilePosition = CoordinateToPosition(x, y) + new Vector3(0, 0, zOffset);
-                BoardTile newTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity, _boardHolder);
+                BaseBoardTile newTile = Instantiate(_currentBoard.defaultTile.tilePrefab, tilePosition, Quaternion.identity, _boardHolder);
 
                 if((x + y) % 2 == 0)
                 {
-                    newTile.SetTile(_currentBoard.whiteTileSprite, new Coordinate(x, y));
+                    newTile.SetTile(_currentBoard.defaultTile.whiteTile, new Coordinate(x, y));
                 }
                 else
                 {
-                    newTile.SetTile(_currentBoard.blackTileSprite, new Coordinate(x, y));
+                    newTile.SetTile(_currentBoard.defaultTile.blackTile, new Coordinate(x, y));
                 }
 
                 tiles[x, y] = newTile;
@@ -87,6 +87,28 @@ public class BoardCreator : MonoBehaviour
             }
 
             zOffset = -0.1f;
+        }
+
+        if(_currentBoard.hasSpecialTile)
+        {
+            foreach(var specialTile in _currentBoard.specialTiles)
+            {
+                int x = specialTile.tileCoordinate.x;
+                int y = specialTile.tileCoordinate.y;
+
+                RemoveTile(x, y);
+                Vector3 tilePosition = CoordinateToPosition(x, y);
+                BaseBoardTile newTile = Instantiate(specialTile.tilePrefab, tilePosition, Quaternion.identity, _boardHolder);
+
+                if((x + y) % 2 == 0)
+                {
+                    newTile.SetTile(specialTile.whiteTile, new Coordinate(x, y));
+                }
+                else
+                {
+                    newTile.SetTile(specialTile.blackTile, new Coordinate(x, y));
+                }
+            }
         }
 
         if(piecePlacer != null)
@@ -112,12 +134,18 @@ public class BoardCreator : MonoBehaviour
         _boardHolder.parent = transform;
     }
 
+    private void RemoveTile(int a, int b)
+    {
+        BaseBoardTile tileToRemove = GetTileAt(a, b);
+        DestroyImmediate(tileToRemove.gameObject);
+    }
+
     public BoardSettingsSO GetCurrentBoard()
     {
         return _currentBoard;
     }
 
-    public BoardTile GetTileAt(int x, int y)
+    public BaseBoardTile GetTileAt(int x, int y)
     {
         if(x < 0 || x >= _currentBoard.boardSize.x || y < 0 || y >= _currentBoard.boardSize.y)
         {
@@ -144,7 +172,7 @@ public class BoardCreator : MonoBehaviour
             return;
         }
 
-        tiles[x, y].PlacePiece(piece);
+        tiles[x, y].HandlePiecePlacement(piece);
     }
 
     [System.Serializable]

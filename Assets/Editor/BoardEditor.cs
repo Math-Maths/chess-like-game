@@ -27,7 +27,7 @@ public class BoardEditor : Editor
     {
         serializedObject.Update();
     
-        EditorGUILayout.PropertyField(tilePrefabProp);
+        //EditorGUILayout.PropertyField(tilePrefabProp);
         EditorGUILayout.Space(10);
         EditorGUILayout.PropertyField(holderNameProp);
         EditorGUILayout.PropertyField(pieceHolderNameProp);

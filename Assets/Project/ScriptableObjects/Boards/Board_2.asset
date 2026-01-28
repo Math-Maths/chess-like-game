@@ -16,10 +16,25 @@ MonoBehaviour:
   boardSize:
     x: 8
     y: 10
-  whiteTileSprite: {fileID: -7261268291002220680, guid: b7b637b248a124f49a440d6baff44da1, type: 3}
-  blackTileSprite: {fileID: -2681660156007112730, guid: 1e0bfb147dff54041b851b33d8ad5548, type: 3}
+  defaultTile:
+    tilePrefab: {fileID: 7109050381783550711, guid: 3e5dad04af1b0a04f933145aed94096a, type: 3}
+    whiteTile: {fileID: -7261268291002220680, guid: b7b637b248a124f49a440d6baff44da1, type: 3}
+    blackTile: {fileID: -2681660156007112730, guid: 1e0bfb147dff54041b851b33d8ad5548, type: 3}
+    tileCoordinate:
+      x: 0
+      y: 0
+    aditionalSprite: {fileID: 0}
   playerSideColor: {r: 0.2, g: 1, b: 0.22745098, a: 1}
   botSideColor: {r: 1, g: 0.13396227, b: 0.5204448, a: 1}
+  hasSpecialTile: 1
+  specialTiles:
+  - tilePrefab: {fileID: 7109050381783550711, guid: 3e5dad04af1b0a04f933145aed94096a, type: 3}
+    whiteTile: {fileID: 6653905344825977771, guid: 4bbf62f3e0a391a43adbcdd0d19d3ca2, type: 3}
+    blackTile: {fileID: -617328071297788028, guid: bde47f732d4c38e49ac15cd73d59fc8a, type: 3}
+    tileCoordinate:
+      x: 5
+      y: 5
+    aditionalSprite: {fileID: 0}
   enemyPieces:
   - pieceType: {fileID: 11400000, guid: a4c85a4beb0878b499c55de3c35ce213, type: 2}
     position:
