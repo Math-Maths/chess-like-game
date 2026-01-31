@@ -38,6 +38,7 @@ public class BoardSettingsSO : ScriptableObject
         public Sprite whiteTile;
         public Sprite blackTile;
         public BoardCreator.Coordinate tileCoordinate;
+        public bool isObstacle;
 
         [Header("Use this field if you need a second sprite to hover over this tile")]
         public Sprite aditionalSprite;

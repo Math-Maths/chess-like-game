@@ -45,6 +45,10 @@ public static class Validator
 
                 // If the target tile is occupied, stop checking further in this direction
                 BaseBoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
+
+                if(targetTile.IsObstacle)
+                    break;
+
                 if(targetTile.GetOccupyingPiece() != null)
                 {
                     //If occupied by ally and can move to ally tiles is allowed
