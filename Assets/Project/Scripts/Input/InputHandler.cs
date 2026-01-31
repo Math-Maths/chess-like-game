@@ -1,28 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using ChessGame;
 
 public class InputHandler : MonoBehaviour
 {
-    public enum InputContext
-    {
-        Gameplay,
-        TeamSelection,
-        UIinteraction
-    }
-
     private PlayerInput _playerInput;
     private BoardManager _boardManager;
-    private BoardTile _selectedPiece;
+    private BaseBoardTile _selectedPiece;
     
     private InputAction _leftClickAction;
-    private InputContext _currentInputContext;
 
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _boardManager = GetComponent<BoardManager>();
         _leftClickAction = _playerInput.actions["Point"];
-        _currentInputContext = InputContext.Gameplay;
     }
 
     void OnEnable()
@@ -37,29 +29,35 @@ public class InputHandler : MonoBehaviour
 
     private void OnPointPerfomed(InputAction.CallbackContext context)
     {
-        if(_currentInputContext == InputContext.Gameplay)
+        if(GameManager.Instance.CurrentGameState == GameState.Gameplay)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePosition), Vector2.zero);
 
             if (hit.collider != null)
             {
-                if(hit.collider.TryGetComponent<BoardTile>(out BoardTile tile))
+                if(hit.collider.TryGetComponent<BaseBoardTile>(out BaseBoardTile tile))
                 {
-                    //BoardManager handle tile selection
-                    Piece piece = tile.GetOccupyingPiece();
+                    BasePiece piece = tile.GetOccupyingPiece();
 
-                    if(_selectedPiece != null)
+                    #region Deprecated
+                    // if(_selectedPiece != null)
+                    // {
+                    //     //Try to move the selected piece to the clicked tile
+                    //     _boardManager.TryMoveSelectedPiece(_selectedPiece, tile);
+                    //     _selectedPiece = null;
+                    //     return;
+                    // }
+                    #endregion
+
+                    if(piece != null && !piece.IsAvailable)
                     {
-                        //Try to move the selected piece to the clicked tile
-                        _boardManager.TryMoveSelectedPiece(_selectedPiece, tile);
-                        _selectedPiece = null;
+                        //Debug.Log($"Clicked on piece not available: {piece.gameObject.name}");
                         return;
                     }
 
-                    if(piece != null)
+                    if(piece != null || _selectedPiece != null || _boardManager.CurrentState == SelectionState.SecondaryMove)
                     {
-                        Debug.Log($"Clicked on piece: {piece.name} at tile: {tile.name}");
                         _boardManager.HandleSelection(tile, out _selectedPiece);
                     }
                     else

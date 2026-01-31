@@ -16,6 +16,178 @@ MonoBehaviour:
   boardSize:
     x: 8
     y: 10
-  whiteTileSprite: {fileID: -5228092943908554496, guid: 68e9e67e367641d4b8e37084bc26408c, type: 3}
-  blackTileSprite: {fileID: 4508142643093186415, guid: 4c243b1c97b42cc49a57d5c0e53dbe2d, type: 3}
-  startingPieces: []
+  defaultTile:
+    tilePrefab: {fileID: 7109050381783550711, guid: 3e5dad04af1b0a04f933145aed94096a, type: 3}
+    whiteTile: {fileID: -7261268291002220680, guid: b7b637b248a124f49a440d6baff44da1, type: 3}
+    blackTile: {fileID: -2681660156007112730, guid: 1e0bfb147dff54041b851b33d8ad5548, type: 3}
+    tileCoordinate:
+      x: 0
+      y: 0
+    isObstacle: 0
+    aditionalSprite: {fileID: -7647315871008233535, guid: 7825934d33813224a820b7109ca05a96, type: 3}
+  playerSideColor: {r: 0.2, g: 1, b: 0.22745098, a: 1}
+  botSideColor: {r: 1, g: 0.13396227, b: 0.5204448, a: 1}
+  hasSpecialTile: 1
+  specialTiles:
+  - tilePrefab: {fileID: 3026784902682321621, guid: 05921b8cf95c7a74ab52baf985493fe6, type: 3}
+    whiteTile: {fileID: 6653905344825977771, guid: 4bbf62f3e0a391a43adbcdd0d19d3ca2, type: 3}
+    blackTile: {fileID: -617328071297788028, guid: bde47f732d4c38e49ac15cd73d59fc8a, type: 3}
+    tileCoordinate:
+      x: 5
+      y: 5
+    isObstacle: 0
+    aditionalSprite: {fileID: 21300000, guid: 7825934d33813224a820b7109ca05a96, type: 3}
+  - tilePrefab: {fileID: 3026784902682321621, guid: 05921b8cf95c7a74ab52baf985493fe6, type: 3}
+    whiteTile: {fileID: 6653905344825977771, guid: 4bbf62f3e0a391a43adbcdd0d19d3ca2, type: 3}
+    blackTile: {fileID: -617328071297788028, guid: bde47f732d4c38e49ac15cd73d59fc8a, type: 3}
+    tileCoordinate:
+      x: 0
+      y: 4
+    isObstacle: 0
+    aditionalSprite: {fileID: 21300000, guid: 7825934d33813224a820b7109ca05a96, type: 3}
+  - tilePrefab: {fileID: 3026784902682321621, guid: 05921b8cf95c7a74ab52baf985493fe6, type: 3}
+    whiteTile: {fileID: 6653905344825977771, guid: 4bbf62f3e0a391a43adbcdd0d19d3ca2, type: 3}
+    blackTile: {fileID: -617328071297788028, guid: bde47f732d4c38e49ac15cd73d59fc8a, type: 3}
+    tileCoordinate:
+      x: 2
+      y: 5
+    isObstacle: 0
+    aditionalSprite: {fileID: 21300000, guid: 7825934d33813224a820b7109ca05a96, type: 3}
+  - tilePrefab: {fileID: 3026784902682321621, guid: 05921b8cf95c7a74ab52baf985493fe6, type: 3}
+    whiteTile: {fileID: 6653905344825977771, guid: 4bbf62f3e0a391a43adbcdd0d19d3ca2, type: 3}
+    blackTile: {fileID: -617328071297788028, guid: bde47f732d4c38e49ac15cd73d59fc8a, type: 3}
+    tileCoordinate:
+      x: 7
+      y: 4
+    isObstacle: 0
+    aditionalSprite: {fileID: 21300000, guid: 7825934d33813224a820b7109ca05a96, type: 3}
+  enemyPieces:
+  - pieceType: {fileID: 11400000, guid: a4c85a4beb0878b499c55de3c35ce213, type: 2}
+    position:
+      x: 0
+      y: 9
+  - pieceType: {fileID: 11400000, guid: f17a4a2e5437ba345819adc8f9508121, type: 2}
+    position:
+      x: 1
+      y: 9
+  - pieceType: {fileID: 11400000, guid: da9424acc64bf804cb9c50d282379725, type: 2}
+    position:
+      x: 2
+      y: 9
+  - pieceType: {fileID: 11400000, guid: 3304cb8d0816d4849875c987a3f80459, type: 2}
+    position:
+      x: 3
+      y: 9
+  - pieceType: {fileID: 11400000, guid: 3dc188a0d9c6d11439ca2ce7601b6ada, type: 2}
+    position:
+      x: 4
+      y: 9
+  - pieceType: {fileID: 11400000, guid: da9424acc64bf804cb9c50d282379725, type: 2}
+    position:
+      x: 5
+      y: 9
+  - pieceType: {fileID: 11400000, guid: f17a4a2e5437ba345819adc8f9508121, type: 2}
+    position:
+      x: 6
+      y: 9
+  - pieceType: {fileID: 11400000, guid: a4c85a4beb0878b499c55de3c35ce213, type: 2}
+    position:
+      x: 7
+      y: 9
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 0
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 1
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 2
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 3
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 4
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 5
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 6
+      y: 8
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 7
+      y: 8
+  playePieces:
+  - pieceType: {fileID: 11400000, guid: a4c85a4beb0878b499c55de3c35ce213, type: 2}
+    position:
+      x: 0
+      y: 0
+  - pieceType: {fileID: 11400000, guid: f17a4a2e5437ba345819adc8f9508121, type: 2}
+    position:
+      x: 1
+      y: 0
+  - pieceType: {fileID: 11400000, guid: da9424acc64bf804cb9c50d282379725, type: 2}
+    position:
+      x: 2
+      y: 0
+  - pieceType: {fileID: 11400000, guid: 3304cb8d0816d4849875c987a3f80459, type: 2}
+    position:
+      x: 3
+      y: 0
+  - pieceType: {fileID: 11400000, guid: 3dc188a0d9c6d11439ca2ce7601b6ada, type: 2}
+    position:
+      x: 4
+      y: 0
+  - pieceType: {fileID: 11400000, guid: da9424acc64bf804cb9c50d282379725, type: 2}
+    position:
+      x: 5
+      y: 0
+  - pieceType: {fileID: 11400000, guid: f17a4a2e5437ba345819adc8f9508121, type: 2}
+    position:
+      x: 6
+      y: 0
+  - pieceType: {fileID: 11400000, guid: a4c85a4beb0878b499c55de3c35ce213, type: 2}
+    position:
+      x: 7
+      y: 0
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 0
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 1
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 2
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 3
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 4
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 5
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 6
+      y: 1
+  - pieceType: {fileID: 11400000, guid: 0249d81b07c7f134a84586bfb04ea0ec, type: 2}
+    position:
+      x: 7
+      y: 1
