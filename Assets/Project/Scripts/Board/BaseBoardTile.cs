@@ -3,8 +3,12 @@ using ChessGame;
 
 public class BaseBoardTile : MonoBehaviour
 {
-    private BasePiece _occupyingPiece;
-    private BoardCreator.Coordinate _coordinate;
+    protected BasePiece _occupyingPiece;
+    protected BoardCreator.Coordinate _coordinate;
+
+    protected bool _isObstacle;
+
+    public bool IsObstacle => _isObstacle;
 
     public int XCoord
     {
@@ -16,7 +20,7 @@ public class BaseBoardTile : MonoBehaviour
         get{ return _coordinate.y; }
     }
 
-    public void SetTile(Sprite sprite, BoardCreator.Coordinate coord)
+    public virtual void SetTile(Sprite sprite, BoardCreator.Coordinate coord, Sprite aditional = null, bool obstacle = false)
     {
         _coordinate = coord;
         _occupyingPiece = null;
@@ -68,6 +72,6 @@ public class BaseBoardTile : MonoBehaviour
 
     public virtual void CheckOnPieceEnter(BasePiece piece)
     {
-        Debug.Log("Normal Tile");
+        //Debug.Log("Normal Tile");
     }
 }

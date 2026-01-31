@@ -102,12 +102,20 @@ public class BoardCreator : MonoBehaviour
 
                 if((x + y) % 2 == 0)
                 {
-                    newTile.SetTile(specialTile.whiteTile, new Coordinate(x, y));
+                    if(specialTile.aditionalSprite == null)
+                        newTile.SetTile(specialTile.whiteTile, new Coordinate(x, y));
+                    else
+                        newTile.SetTile(specialTile.whiteTile, new Coordinate(x, y), specialTile.aditionalSprite, specialTile.isObstacle);
                 }
                 else
                 {
-                    newTile.SetTile(specialTile.blackTile, new Coordinate(x, y));
+                    if(specialTile.aditionalSprite == null)
+                        newTile.SetTile(specialTile.blackTile, new Coordinate(x, y));
+                    else
+                        newTile.SetTile(specialTile.blackTile, new Coordinate(x, y), specialTile.aditionalSprite, specialTile.isObstacle);
                 }
+
+                tiles[x, y] = newTile;
             }
         }
 
