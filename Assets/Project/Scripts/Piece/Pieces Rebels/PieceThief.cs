@@ -29,6 +29,7 @@ public class PieceThief : BasePiece, IPieceHover
 
             transform.position = targetPosition;
             BaseBoardTile currentTile = BoardCreator.Instance.GetTileAt(coord.x, coord.y);
+            currentTile.CheckOnPieceEnter(this);
             if(currentTile.GetOccupyingPiece() != null && currentTile.GetOccupyingPiece() != this)
             {
                 OnPieceHover(currentTile.GetOccupyingPiece());

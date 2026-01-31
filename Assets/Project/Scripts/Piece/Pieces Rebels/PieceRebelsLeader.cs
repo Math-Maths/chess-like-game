@@ -26,6 +26,8 @@ public class PieceRebelsLeader : BasePiece, IPieceHover
         foreach (var coord in path)
         {
             Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(coord.x, coord.y);
+            BaseBoardTile checkTile = BoardCreator.Instance.GetTileAt(coord.x, coord.y);
+            checkTile.CheckOnPieceEnter(this);
 
             transform.position = targetPosition;
 

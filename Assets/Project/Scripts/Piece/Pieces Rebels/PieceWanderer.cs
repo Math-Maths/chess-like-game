@@ -35,6 +35,8 @@ public class PieceWanderer : BasePiece, IPieceCapture
         foreach (var coord in path)
         {
             Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(coord.x, coord.y);
+            BaseBoardTile checkTile = BoardCreator.Instance.GetTileAt(coord.x, coord.y);
+            checkTile.CheckOnPieceEnter(this);
 
             transform.position = targetPosition;
             yield return new WaitForSeconds(.5f);

@@ -90,6 +90,8 @@ public class BasePiece : MonoBehaviour
         foreach (var coord in path)
         {
             Vector3 targetPosition = BoardCreator.Instance.CoordinateToPosition(coord.x, coord.y);
+            BaseBoardTile checkTile = BoardCreator.Instance.GetTileAt(coord.x, coord.y);
+            checkTile.CheckOnPieceEnter(this);
 
             transform.position = targetPosition;
             yield return new WaitForSeconds(.5f);
@@ -174,8 +176,12 @@ public class BasePiece : MonoBehaviour
         }
     }
 
-    public void Die()
+    public void Die(bool endTurn = false)
     {
+        if(endTurn)
+            FinishTurn();
+
+        StopAllCoroutines();
         gameObject.SetActive(false);
     }
 
