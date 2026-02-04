@@ -17,12 +17,13 @@ MonoBehaviour:
   pieceOutlineSprite: {fileID: 1896853682132549823, guid: 1ce6d3ec98a492043b7db09dd024aa88, type: 3}
   pieceOrderValue: 31
   piecePrefab: {fileID: 6601712666024639312, guid: e5387182af7a77c49bae270bd885b737, type: 3}
-  category: 0
+  category: 4
   maxMoveDistance: 5
   firstMoveDistance: 5
   canJumpOverPieces: 0
   hasSecondaryAttack: 1
   hasSecondaryMove: 0
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 1, y: 0}
   - {x: 1, y: 1}
