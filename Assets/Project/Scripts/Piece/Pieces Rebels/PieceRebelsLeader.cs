@@ -1,6 +1,7 @@
 using UnityEngine;
 using ChessGame;
 using System.Collections;
+using ChessGame.Managers;
 
 public class PieceRebelsLeader : BasePiece, IPieceHover
 {
@@ -20,7 +21,7 @@ public class PieceRebelsLeader : BasePiece, IPieceHover
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
-        GameManager.Instance.CurrentGameState = GameState.Busy;
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Busy);
         yield return new WaitForSeconds(.5f);
 
         foreach (var coord in path)

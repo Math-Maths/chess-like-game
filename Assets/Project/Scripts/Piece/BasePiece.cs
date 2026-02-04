@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using ChessGame;
+using ChessGame.Managers;
 
 public class BasePiece : MonoBehaviour
 {
@@ -83,7 +84,7 @@ public class BasePiece : MonoBehaviour
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
-        GameManager.Instance.CurrentGameState = GameState.Busy;
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Busy);
         _occupyingTile.RemovePiece();
         yield return new WaitForSeconds(.5f);
 
@@ -132,8 +133,8 @@ public class BasePiece : MonoBehaviour
     void KillEnemyPiece()
     {
         _currentTarget.CapturePiece();
-        GameManager.Instance.ToggleTurn();
-        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+        EventManager.Instance.Invoke(EventNameSaver.OnTurnChange);
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Gameplay);
         _currentTarget = null;
     }
 
@@ -178,6 +179,14 @@ public class BasePiece : MonoBehaviour
 
     public void Die(bool endTurn = false)
     {
+        if(type.category == PieceTypeSO.PieceCategory.King)
+        {
+            if(color == PieceSide.Player)
+                EventManager.Instance.Invoke<PieceSide>(EventNameSaver.OnKingCapture, PieceSide.Enemy);
+            else
+                EventManager.Instance.Invoke<PieceSide>(EventNameSaver.OnKingCapture, PieceSide.Player);
+        }
+
         if(endTurn)
             FinishTurn();
 
@@ -187,7 +196,7 @@ public class BasePiece : MonoBehaviour
 
     protected void FinishTurn()
     {
-        GameManager.Instance.ToggleTurn();
-        GameManager.Instance.CurrentGameState = GameState.Gameplay;
+        EventManager.Instance.Invoke(EventNameSaver.OnTurnChange);
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Gameplay);
     }
 }

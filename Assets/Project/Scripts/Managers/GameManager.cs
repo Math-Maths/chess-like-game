@@ -1,56 +1,59 @@
 using UnityEngine;
 
-namespace ChessGame
+namespace ChessGame.Managers
 {
-public class GameManager : MonoBehaviour
-{
-    public static GameManager Instance { get; private set; }
-
-    public PieceSide CurrentTurn { get; private set; } = PieceSide.Player;
-    public GameState CurrentGameState { get; set; } = GameState.Gameplay;
-
-    void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if(Instance == null)
+        public static GameManager Instance { get; private set; }
+
+        public GameState CurrentGameState { get; private set; } = GameState.Gameplay;
+
+        private bool _canChangeState = true;
+
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if(Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        private void Start()
         {
-            Destroy(gameObject);
+            BindEvents();
+        }
+        
+        private void BindEvents()
+        {
+            EventManager.Instance.AddListener<GameState>(EventNameSaver.OnStateChange, ChangeGameState);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.RemoveListener<GameState>(EventNameSaver.OnStateChange, ChangeGameState);
+        }
+
+        private void ChangeGameState(GameState state)
+        {
+            if(state == GameState.GameOver)
+                _canChangeState = false;
+
+            if(_canChangeState)
+                CurrentGameState = state;
         }
     }
 
-    void Start()
+    public enum GameState
     {
-        CurrentTurn = PieceSide.Player;
-    }   
-
-    public void ToggleTurn()
-    {
-        CurrentTurn = CurrentTurn == PieceSide.Player ? PieceSide.Enemy : PieceSide.Player;
-        EventManager.Instance.Invoke(EventNameSaver.OnTurnChange);
+        TeamSelection,
+        Gameplay,
+        Paused,
+        Busy,
+        GameOver
     }
-
-    public void EndGame()
-    {
-        CurrentTurn = PieceSide.None;
-    }
-}
-
-public enum PieceSide
-{
-    Player,
-    Enemy,
-    None
-}
-
-public enum GameState
-{
-    TeamSelection,
-    Gameplay,
-    Paused,
-    Busy
-}
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using ChessGame;
 using System.Collections;
+using ChessGame.Managers;
 
 public class PieceThief : BasePiece, IPieceHover
 {
@@ -19,7 +20,7 @@ public class PieceThief : BasePiece, IPieceHover
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
-        GameManager.Instance.CurrentGameState = GameState.Busy;
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Busy);
         _occupyingTile.RemovePiece();
         yield return new WaitForSeconds(.5f);
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using ChessGame.Managers;
 using ChessGame;
 
 public class PiecePlacer : MonoBehaviour
@@ -7,6 +8,7 @@ public class PiecePlacer : MonoBehaviour
 
     public void PlacePieces(BoardSettingsSO board, Transform pieceHolder, Color playerOutlineColor, Color enemyOutlineColor)
     {
+        //TODO: Instantiate piece through the player data, not directly from the board player pieces.
         foreach (var startingPiece in board.playePieces)
         {
             PositionatePieces(startingPiece, pieceHolder, PieceSide.Player, playerOutlineColor, "player");

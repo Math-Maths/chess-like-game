@@ -2,6 +2,7 @@ using ChessGame;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ChessGame.Managers;
 
 public static class Validator
 {
@@ -103,7 +104,7 @@ public static class Validator
                 BaseBoardTile targetTile = BoardCreator.Instance.GetTileAt(targetX, targetY);
                 if (targetTile.GetOccupyingPiece() != null)
                 {
-                    if (!type.canJumpOverPieces && targetTile.GetOccupyingPiece().Side == GameManager.Instance.CurrentTurn)
+                    if (!type.canJumpOverPieces && targetTile.GetOccupyingPiece().Side == GameplayController.Instance.CurrentTurn)
                         break; // Can't jump over pieces, stop checking further in this direction
 
                     if (targetTile.GetOccupyingPiece().Side != piece.Side)

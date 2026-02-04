@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ChessGame;
+using ChessGame.Managers;
 using UnityEngine;
 using UnityEngine.WSA;
 
@@ -124,7 +125,7 @@ public class BoardManager : MonoBehaviour
 
     void SelectPieceOnTile(BaseBoardTile tile, out BaseBoardTile selectedPiece)
     {
-        if(tile.GetOccupyingPiece().Side != GameManager.Instance.CurrentTurn)
+        if(tile.GetOccupyingPiece().Side != GameplayController.Instance.CurrentTurn)
         {
             selectedPiece = null;
             return;

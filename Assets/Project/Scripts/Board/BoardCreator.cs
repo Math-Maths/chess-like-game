@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Tilemaps;
 
 namespace ChessGame
 {
@@ -10,20 +9,17 @@ public class BoardCreator : MonoBehaviour
 
     [SerializeField] private int selectedBoardIndex = 0;
     [SerializeField] private BoardSettingsSO[] boards;
-
-    //[SerializeField] private BoardTile tilePrefab;
     [SerializeField] private string holderName = "Tile Holder";
     [SerializeField] private string pieceHolderName = "Pieces Holder"; 
 
-    private BaseBoardTile[,] tiles;
+    private BaseBoardTile[,] _tiles;
     private BoardSettingsSO _currentBoard;
     private List<Coordinate> _allTileCoordinates;
-    private PiecePlacer piecePlacer;
-
+    private PiecePlacer _piecePlacer;
     private Transform _boardHolder;
     private Transform _pieceHolder;
 
-    private void Awake()
+    public void Initialize()
     {
         if(Instance == null)
         {
@@ -33,13 +29,33 @@ public class BoardCreator : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }  
 
-    private void Start()
+        _piecePlacer = GetComponent<PiecePlacer>();
+    }
+
+    public void PrepareBoard(int boardIndex)
     {
-        piecePlacer = GetComponent<PiecePlacer>();
+        selectedBoardIndex = boardIndex;
         GenerateBoard();
     }
+
+    // private void Awake()
+    // {
+    //     if(Instance == null)
+    //     {
+    //         Instance = this;
+    //     }
+    //     else
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }  
+
+    // private void Start()
+    // {
+    //     _piecePlacer = GetComponent<PiecePlacer>();
+    //     GenerateBoard();
+    // }
 
     public void GenerateBoard()
     {
@@ -50,7 +66,7 @@ public class BoardCreator : MonoBehaviour
         }
 
         _currentBoard = boards[selectedBoardIndex];
-        tiles = new BaseBoardTile[_currentBoard.boardSize.x, _currentBoard.boardSize.y];
+        _tiles = new BaseBoardTile[_currentBoard.boardSize.x, _currentBoard.boardSize.y];
 
         _allTileCoordinates = new List<Coordinate>();
 
@@ -82,7 +98,7 @@ public class BoardCreator : MonoBehaviour
                     newTile.SetTile(_currentBoard.defaultTile.blackTile, new Coordinate(x, y));
                 }
 
-                tiles[x, y] = newTile;
+                _tiles[x, y] = newTile;
                 zOffset += 0.01f;
             }
 
@@ -115,12 +131,12 @@ public class BoardCreator : MonoBehaviour
                         newTile.SetTile(specialTile.blackTile, new Coordinate(x, y), specialTile.aditionalSprite, specialTile.isObstacle);
                 }
 
-                tiles[x, y] = newTile;
+                _tiles[x, y] = newTile;
             }
         }
 
-        if(piecePlacer != null)
-            piecePlacer.PlacePieces(_currentBoard, _pieceHolder, _currentBoard.playerSideColor, _currentBoard.botSideColor);
+        if(_piecePlacer != null)
+            _piecePlacer.PlacePieces(_currentBoard, _pieceHolder, _currentBoard.playerSideColor, _currentBoard.botSideColor);
     }
 
     private void SetHolders()
@@ -161,7 +177,7 @@ public class BoardCreator : MonoBehaviour
             return null;
         }
 
-        return tiles[x, y];
+        return _tiles[x, y];
     }
 
     public Vector3 CoordinateToPosition(int x, int y)
@@ -180,7 +196,7 @@ public class BoardCreator : MonoBehaviour
             return;
         }
 
-        tiles[x, y].HandlePiecePlacement(piece);
+        _tiles[x, y].HandlePiecePlacement(piece);
     }
 
     [System.Serializable]

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using ChessGame;
+using ChessGame.Managers;
 
 public class InputHandler : MonoBehaviour
 {
@@ -10,17 +10,29 @@ public class InputHandler : MonoBehaviour
     
     private InputAction _leftClickAction;
 
-    void Awake()
+    // void Awake()
+    // {
+    //     _playerInput = GetComponent<PlayerInput>();
+    //     _boardManager = GetComponent<BoardManager>();
+    //     _leftClickAction = _playerInput.actions["Point"];
+    // }
+
+    public void Initialize()
     {
         _playerInput = GetComponent<PlayerInput>();
         _boardManager = GetComponent<BoardManager>();
         _leftClickAction = _playerInput.actions["Point"];
     }
 
-    void OnEnable()
+    public void PrepareInput()
     {
         _leftClickAction.performed += OnPointPerfomed;
     }
+
+    // void OnEnable()
+    // {
+    //     _leftClickAction.performed += OnPointPerfomed;
+    // }
 
     void OnDisable()
     {

@@ -1,6 +1,7 @@
 using UnityEngine;
-using ChessGame;
+using ChessGame.Managers;
 using System.Collections;
+using ChessGame;
 
 public class PieceWanderer : BasePiece, IPieceCapture
 {
@@ -12,7 +13,7 @@ public class PieceWanderer : BasePiece, IPieceCapture
         {
             BoardManager.Instance.SetCurrentState(SelectionState.SecondaryMove);
             BoardManager.Instance.SetSelectedPiece(this);
-            GameManager.Instance.CurrentGameState = GameState.Gameplay;
+            EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Gameplay);
             //BoardManager.Instance.ShowPieceMovePreview(_occupyingTile, true);
         }
         else
@@ -28,7 +29,7 @@ public class PieceWanderer : BasePiece, IPieceCapture
 
     IEnumerator WalkPath(BoardCreator.Coordinate[] path)
     {
-        GameManager.Instance.CurrentGameState = GameState.Busy;
+        EventManager.Instance.Invoke<GameState>(EventNameSaver.OnStateChange, GameState.Busy);
         _occupyingTile.RemovePiece();
         yield return new WaitForSeconds(.5f);
 
