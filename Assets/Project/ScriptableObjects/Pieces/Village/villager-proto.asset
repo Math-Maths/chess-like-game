@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: villager-proto
   m_EditorClassIdentifier: 
   pieceName: villager-proto
+  id: 3d7f33cc-2f04-4a62-a4c6-264428256591
   pieceSprite: {fileID: 1952507750863325824, guid: a3669d5028f21374b80c610a977f8737, type: 3}
   pieceOutlineSprite: {fileID: -2888330606982011805, guid: 9e0edf8fad5b03949b7c0b10f4e6b7ce, type: 3}
   pieceOrderValue: 27
@@ -23,6 +24,7 @@ MonoBehaviour:
   canJumpOverPieces: 0
   hasSecondaryAttack: 0
   hasSecondaryMove: 0
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 0, y: 1}
   attackPatterns:

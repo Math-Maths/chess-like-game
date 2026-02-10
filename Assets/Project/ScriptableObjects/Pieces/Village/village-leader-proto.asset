@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: village-leader-proto
   m_EditorClassIdentifier: 
   pieceName: village-leader-proto
+  id: 0c85cd05-3963-4c0a-ad1c-4677bd253947
   pieceSprite: {fileID: -8319913397751345365, guid: db481c4176ef2644b816f381adb3ef60, type: 3}
   pieceOutlineSprite: {fileID: 7336708360560722447, guid: f74a1a1dcdf51d74a87120ebc6adf151, type: 3}
   pieceOrderValue: 32

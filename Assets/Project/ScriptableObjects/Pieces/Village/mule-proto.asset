@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: mule-proto
   m_EditorClassIdentifier: 
   pieceName: mule-proto
+  id: 4e287a9e-2665-4c09-98d2-9a44ac734ac5
   pieceSprite: {fileID: 2715856200758502006, guid: 878a87d4a8ef01d498e1ee2031b9e9f6, type: 3}
   pieceOutlineSprite: {fileID: 1685976296744619535, guid: 3239c15157b2663468e0691c83586aee, type: 3}
   pieceOrderValue: 29

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: travaler-proto
   m_EditorClassIdentifier: 
   pieceName: traveler-proto
+  id: 10ccf27b-2a08-423f-9ba1-ef9e812529d210ccf27b-2a08-423f-9ba1-ef9e812529d2
   pieceSprite: {fileID: -1516479222023209826, guid: e90af9d9f919265409b7a25cbd3e6e4d, type: 3}
   pieceOutlineSprite: {fileID: -1660696811630249761, guid: e97732b6292f23e498575c7a21194e74, type: 3}
   pieceOrderValue: 28

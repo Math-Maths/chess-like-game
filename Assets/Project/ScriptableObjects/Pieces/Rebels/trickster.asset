@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: trickster
   m_EditorClassIdentifier: 
   pieceName: Trickster
+  id: f7531341-ad1d-4c4e-96e2-ea74ca5f24d0
   pieceSprite: {fileID: -7006843123043329963, guid: ce656288f0c16194b805f831ac046997, type: 3}
   pieceOutlineSprite: {fileID: -3583480768655435229, guid: 05827740f2735594e87e86af9443deaf, type: 3}
   pieceOrderValue: 28
@@ -23,6 +24,7 @@ MonoBehaviour:
   canJumpOverPieces: 1
   hasSecondaryAttack: 0
   hasSecondaryMove: 0
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 0, y: 1}
   - {x: 0, y: -1}

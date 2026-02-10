@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: rebels-leader
   m_EditorClassIdentifier: 
   pieceName: Rebels Leader
+  id: 5085d7db-0284-4b23-a60b-437c231e4430
   pieceSprite: {fileID: 2744941176008989313, guid: 44ef1ac2a9ad9704097bdf75c34c5b04, type: 3}
   pieceOutlineSprite: {fileID: 1470118082211901759, guid: 01a7b8853818cf442b050da0d2ebc6c6, type: 3}
   pieceOrderValue: 32

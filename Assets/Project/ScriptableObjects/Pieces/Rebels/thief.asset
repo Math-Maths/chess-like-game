@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: thief
   m_EditorClassIdentifier: 
   pieceName: Thief
+  id: 20a07bf0-eaad-41ba-9c7b-a1cced4e2932
   pieceSprite: {fileID: -2262647735747319561, guid: cfb25bf3c663f7e4188521b8d839e0d0, type: 3}
   pieceOutlineSprite: {fileID: 6605681912099889281, guid: 6af1beaf5e51c104b95168c942fcc830, type: 3}
   pieceOrderValue: 29
@@ -23,6 +24,7 @@ MonoBehaviour:
   canJumpOverPieces: 0
   hasSecondaryAttack: 0
   hasSecondaryMove: 0
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 1, y: 2}
   - {x: -1, y: 2}

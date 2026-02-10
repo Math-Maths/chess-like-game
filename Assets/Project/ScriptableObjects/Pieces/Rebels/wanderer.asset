@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: wanderer
   m_EditorClassIdentifier: 
   pieceName: Wanderer
+  id: 53a88c5d-a96f-4828-beb7-d6d3a190b20d
   pieceSprite: {fileID: -5935639697508351391, guid: d10419c255329f54986a733483fe1604, type: 3}
   pieceOutlineSprite: {fileID: -5388979140626291377, guid: da4162ab2b0362e4f899591274389301, type: 3}
   pieceOrderValue: 31
@@ -23,6 +24,7 @@ MonoBehaviour:
   canJumpOverPieces: 0
   hasSecondaryAttack: 0
   hasSecondaryMove: 1
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 1, y: 0}
   - {x: 1, y: 1}

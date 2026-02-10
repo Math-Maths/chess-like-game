@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: farmer-proto
   m_EditorClassIdentifier: 
   pieceName: farmer-proto
+  id: fced9e83-e761-48dd-8ca4-c5b296c269d9
   pieceSprite: {fileID: -284627385986098231, guid: 5d6ab11fe8be2644ea3466234ab36530, type: 3}
   pieceOutlineSprite: {fileID: 1896853682132549823, guid: 1ce6d3ec98a492043b7db09dd024aa88, type: 3}
   pieceOrderValue: 31

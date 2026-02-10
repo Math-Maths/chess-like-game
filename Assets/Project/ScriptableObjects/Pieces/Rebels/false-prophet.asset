@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: false-prophet
   m_EditorClassIdentifier: 
   pieceName: False Prophet
+  id: c5985c19-80c5-4e25-91a5-c88f0de7c275
   pieceSprite: {fileID: -174594865632196251, guid: c9b5f75bbe48e784e94c42d12394705b, type: 3}
   pieceOutlineSprite: {fileID: 4067616854412867965, guid: 58dfce854da08f440a700f3b038cae0a, type: 3}
   pieceOrderValue: 30
@@ -23,6 +24,7 @@ MonoBehaviour:
   canJumpOverPieces: 0
   hasSecondaryAttack: 0
   hasSecondaryMove: 0
+  canMoveToAllyTiles: 0
   movementPatterns:
   - {x: 1, y: 1}
   - {x: -1, y: 1}

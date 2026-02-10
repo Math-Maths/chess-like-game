@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: young-christian-proto
   m_EditorClassIdentifier: 
   pieceName: young-christian-proto
+  id: 980a770e-0c20-40ef-8494-41d161a89e99
   pieceSprite: {fileID: 7838081249154283989, guid: 5c75452b59c28a145845fca9d579f7c6, type: 3}
   pieceOutlineSprite: {fileID: 3108945622984394158, guid: 890b8ce610151f041b9c50402dfca178, type: 3}
   pieceOrderValue: 30
