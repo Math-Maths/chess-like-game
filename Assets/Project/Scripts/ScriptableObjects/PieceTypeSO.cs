@@ -5,6 +5,7 @@ public class PieceTypeSO : ScriptableObject
 {
     [Header("General Properties")]
     public string pieceName;
+    public string id;
     public Sprite pieceSprite;
     public Sprite pieceOutlineSprite;
     public int pieceOrderValue;

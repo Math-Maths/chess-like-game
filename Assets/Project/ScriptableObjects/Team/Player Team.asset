@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e64471113c10f4fb779e685e6f4ee4, type: 3}
+  m_Name: Player Team
+  m_EditorClassIdentifier: 
+  teamPieces:
+  - pieceIndexPosition: 0
+    pieceID: 10ccf27b-2a08-423f-9ba1-ef9e812529d210ccf27b-2a08-423f-9ba1-ef9e812529d2
+  - pieceIndexPosition: 1
+    pieceID: 4e287a9e-2665-4c09-98d2-9a44ac734ac5
+  - pieceIndexPosition: 2
+    pieceID: 980a770e-0c20-40ef-8494-41d161a89e99
+  - pieceIndexPosition: 3
+    pieceID: fced9e83-e761-48dd-8ca4-c5b296c269d9
+  - pieceIndexPosition: 4
+    pieceID: 0c85cd05-3963-4c0a-ad1c-4677bd253947
+  - pieceIndexPosition: 5
+    pieceID: 980a770e-0c20-40ef-8494-41d161a89e99
+  - pieceIndexPosition: 6
+    pieceID: 4e287a9e-2665-4c09-98d2-9a44ac734ac5
+  - pieceIndexPosition: 7
+    pieceID: 10ccf27b-2a08-423f-9ba1-ef9e812529d210ccf27b-2a08-423f-9ba1-ef9e812529d2
+  - pieceIndexPosition: 8
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 9
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 10
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 11
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 12
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 13
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 14
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
+  - pieceIndexPosition: 15
+    pieceID: 3d7f33cc-2f04-4a62-a4c6-264428256591
