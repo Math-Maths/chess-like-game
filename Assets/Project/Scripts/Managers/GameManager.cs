@@ -73,6 +73,7 @@ namespace ChessGame.Managers
             _gameStatus.unlockedPiecesIDS = data.unlockedPiecesID;
             _gameStatus.team = data.team;
 
+            SetPlayerTeamAsUnlocked();
             LoadTeamIntoSO(playerTeam);
         }
 
@@ -125,6 +126,17 @@ namespace ChessGame.Managers
             _dataManager.Save(data);
         }
 
+        private void SetPlayerTeamAsUnlocked()
+        {
+            foreach(var piece in playerTeam.teamPieces)
+            {
+                if(!_gameStatus.unlockedPiecesIDS.Contains(piece.pieceID))
+                {
+                    _gameStatus.unlockedPiecesIDS.Add(piece.pieceID);
+                }
+            }
+        }
+
         private void ChangeGameState(GameState state)
         {
             if(state == GameState.GameOver)
@@ -137,6 +149,21 @@ namespace ChessGame.Managers
         public PieceTypeSO GetPieceByID(string id)
         {
             return allPieces.GetPieceByID(id);
+        }
+
+        public PieceDatabaseSO GetAllPiecesDatabase()
+        {
+            return allPieces;
+        }
+
+        public List<string> GetUnlockedPiecesIDs()
+        {
+            return _gameStatus.unlockedPiecesIDS;
+        }
+
+        public int GetUnlockedLevels()
+        {
+            return _gameStatus.currentLevel;
         }
     }
 
