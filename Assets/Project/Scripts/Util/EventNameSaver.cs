@@ -11,4 +11,9 @@ public static class EventNameSaver
     public const string OnTeamPieceSelected = "OnTeamPieceSelected";
     public const string OnNewPieceSet = "OnNewPieceSet";
     #endregion
+
+    #region Main Menu Events
+    public const string OnTeamSelectionOpen = "OnTeamSelectionOpen";
+    public const string OnMainMenuOpen = "OnMainMenuOpen";
+    #endregion
 } 
