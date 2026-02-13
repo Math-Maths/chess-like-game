@@ -11,14 +11,8 @@ namespace ChessGame.UI
         public static TeamSelectionManager Instance {get; private set;}
 
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private Image selectedPieceHolder;
-        //DEBUG
-        
-        [SerializeField] private string[] pieceIDs;
-        //---
         [SerializeField] private GameObject scrollContent;
         [SerializeField] private TMP_Text pieceCategoryText;
-        [SerializeField] private PieceTypeSO[] avaiblePieces;
         [SerializeField] private PlayerPieceTeam[] tilePosition;
 
         private Dictionary<PieceTypeSO.PieceCategory, List<GameObject>> _piecesByCategory = new Dictionary<PieceTypeSO.PieceCategory, List<GameObject>>();
@@ -26,6 +20,7 @@ namespace ChessGame.UI
 
         private TeamSO _playerTeam;
         private TeamSO _tempTeam;
+        private PieceDatabaseSO _pieceDatabase;
 
         private void Awake()
         {
@@ -35,29 +30,34 @@ namespace ChessGame.UI
                 Destroy(gameObject);
         }
 
-        //DEBUG
-        private void Start()
+        public void Initialize(List<string> _ids)
         {
             EventManager.Instance.AddListener<PlayerPieceTeam>(EventNameSaver.OnTeamPieceSelected, OnNewSelection);
             //Initialize the Dictionary
             foreach (PieceTypeSO.PieceCategory category in System.Enum.GetValues(typeof(PieceTypeSO.PieceCategory)))
             {
-                _piecesByCategory[category] = new List<GameObject>();
+                if(!_piecesByCategory.ContainsKey(category))
+                    _piecesByCategory[category] = new List<GameObject>();
             }
 
-            //DEBUG
-            foreach(string pieceID in pieceIDs)
+            unlockedPieces.Clear();
+            foreach(string pieceID in _ids)
             {
-                unlockedPieces.Add(pieceID, true);
+                if(!unlockedPieces.ContainsKey(pieceID))
+                    unlockedPieces.Add(pieceID, true);
             }
-            //---
+
             _playerTeam = GameManager.Instance.PlayerTeam;
             _tempTeam = _playerTeam;
 
-            InstantiateAvaiblePieces();
+            if(_pieceDatabase != GameManager.Instance.GetAllPiecesDatabase())
+            {
+                _pieceDatabase = GameManager.Instance.GetAllPiecesDatabase();
+                InstantiateAvaiblePieces();
+            }
+
             InstantiatePlayerTeam(_playerTeam);
         }
-        //---
 
         private void InstantiatePlayerTeam(TeamSO _playerTeam)
         {
@@ -73,10 +73,10 @@ namespace ChessGame.UI
 
         private void InstantiateAvaiblePieces()
         {
-            for(int i = 0; i < avaiblePieces.Length; i++)
+            for(int i = 0; i < _pieceDatabase.allPieces.Count; i++)
             {
-                GameObject newPiece = CreatedImage(avaiblePieces[i]);
-                RegisterPieceUI(avaiblePieces[i].category, newPiece);
+                GameObject newPiece = CreatedImage(_pieceDatabase.allPieces[i]);
+                RegisterPieceUI(_pieceDatabase.allPieces[i].category, newPiece);
             }
         }
 
@@ -129,11 +129,13 @@ namespace ChessGame.UI
         {
             _playerTeam = _tempTeam;
             GameManager.Instance.SaveTeam(_playerTeam);
+            EventManager.Instance.Invoke(EventNameSaver.OnMainMenuOpen);
         }
 
         public void CancelChanges()
         {
-            
+            _tempTeam = _playerTeam;
+            EventManager.Instance.Invoke(EventNameSaver.OnMainMenuOpen);
         }
     }
 }
